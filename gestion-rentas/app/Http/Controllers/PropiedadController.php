@@ -6,6 +6,7 @@ use App\Models\Propiedad;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
+
 class PropiedadController extends Controller
 {
     /**
@@ -56,6 +57,12 @@ class PropiedadController extends Controller
      */
     public function show(Propiedad $propiedad)
     {
+        // dd([
+        // 'user_id_autenticado' => auth()->id(),
+        // 'user_id_propiedad' => $propiedad->user_id,
+        // 'son_iguales' => auth()->id() === $propiedad->user_id,
+        // 'propiedad' => $propiedad
+   // ]);
         // Verificar que la propiedad pertenezca al usuario autenticado
         $this->authorize('view', $propiedad);
 
