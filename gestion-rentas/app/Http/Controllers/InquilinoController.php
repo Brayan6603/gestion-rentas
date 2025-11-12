@@ -32,7 +32,7 @@ class InquilinoController extends Controller
 
         return view('inquilinos.index-all', compact('inquilinos', 'propiedades'));
     }
-
+    //hola
     /**
      * Show the form for creating a new inquilino from the index-all view.
      */
