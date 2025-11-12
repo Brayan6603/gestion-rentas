@@ -46,10 +46,10 @@ class Propiedad extends Model
     /**
      * Relación: Una propiedad tiene muchos inquilinos
      */
-    // public function inquilinos()
-    // {
-    //     return $this->hasMany(Inquilino::class);
-    // }
+    public function inquilinos()
+    {
+        return $this->hasMany(Inquilino::class, 'propiedad_id');
+    }
 
     /**
      * Relación: Una propiedad tiene muchos pagos

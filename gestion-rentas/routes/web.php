@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PropiedadController;
+use App\Http\Controllers\InquilinoController;
 use App\Models\Propiedad;
 use Illuminate\Support\Facades\Route;
 
@@ -30,9 +31,19 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    
+    // Ruta para ver todos los inquilinos
+    Route::get('/inquilinos', [InquilinoController::class, 'indexAll'])->name('inquilinos.index');
+    
     Route::resource('propiedades', PropiedadController::class)->parameters([
-    'propiedades' => 'propiedad'
-]);
+        'propiedades' => 'propiedad'
+    ]);
+    
+    // Rutas anidadas para inquilinos dentro de propiedades
+    Route::resource('propiedades.inquilinos', InquilinoController::class)->parameters([
+        'propiedades' => 'propiedad',
+        'inquilinos' => 'inquilino'
+    ]);
 });
 
 
