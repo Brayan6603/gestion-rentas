@@ -27,6 +27,7 @@ class StoreInquilinoRequest extends FormRequest
             'telefono' => 'nullable|string|max:20',
             'fecha_inicio' => 'required|date|after_or_equal:today',
             'fecha_fin' => 'nullable|date|after:fecha_inicio',
+            'propiedad_id' => 'nullable|exists:propiedades,id',
         ];
     }
 

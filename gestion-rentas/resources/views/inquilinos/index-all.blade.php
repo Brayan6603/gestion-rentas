@@ -3,13 +3,16 @@
 @section('content')
 <div class="container-fluid py-4">
     <div class="row mb-4">
-        <div class="col-md-8">
+        <div class="col-md-6">
             <h2>
                 <i class="fas fa-users me-2"></i>Todos los Inquilinos
             </h2>
         </div>
-        <div class="col-md-4 text-end">
-            <div class="input-group">
+        <div class="col-md-6 text-end">
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalNuevoInquilino">
+                <i class="fas fa-plus-circle me-2"></i>Nuevo Inquilino
+            </button>
+            <div class="input-group d-inline-flex" style="width: auto; margin-left: 10px;">
                 <input type="text" class="form-control" placeholder="Buscar por nombre, email...">
                 <button class="btn btn-outline-secondary" type="button">
                     <i class="fas fa-search"></i>
@@ -102,11 +105,105 @@
         <div class="alert alert-info text-center py-5">
             <h4><i class="fas fa-inbox"></i> Sin inquilinos</h4>
             <p>No tienes inquilinos registrados aún.</p>
-            <a href="{{ route('propiedades.index') }}" class="btn btn-primary">
-                <i class="fas fa-plus-circle"></i> Ir a Departamentos
-            </a>
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalNuevoInquilino">
+                <i class="fas fa-plus-circle"></i> Crear Primer Inquilino
+            </button>
         </div>
     @endif
+</div>
+
+<!-- Modal para crear nuevo inquilino -->
+<div class="modal fade" id="modalNuevoInquilino" tabindex="-1" aria-labelledby="modalNuevoInquilinoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="modalNuevoInquilinoLabel">
+                    <i class="fas fa-user-plus me-2"></i>Nuevo Inquilino
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="POST" action="{{ route('inquilinos.storeAll') }}">
+                @csrf
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="propiedad_id" class="form-label">Departamento *</label>
+                        <select class="form-select @error('propiedad_id') is-invalid @enderror" 
+                                id="propiedad_id" name="propiedad_id" required>
+                            <option value="">Selecciona un departamento...</option>
+                            @forelse ($propiedades as $propiedad)
+                                <option value="{{ $propiedad->id }}" {{ old('propiedad_id') == $propiedad->id ? 'selected' : '' }}>
+                                    {{ $propiedad->nombre }} - {{ $propiedad->direccion }}
+                                </option>
+                            @empty
+                                <option value="" disabled>No hay departamentos disponibles</option>
+                            @endforelse
+                        </select>
+                        @error('propiedad_id')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label">Nombre *</label>
+                        <input type="text" class="form-control @error('nombre') is-invalid @enderror" 
+                               id="nombre" name="nombre" value="{{ old('nombre') }}" required>
+                        @error('nombre')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Correo Electrónico *</label>
+                        <input type="email" class="form-control @error('email') is-invalid @enderror" 
+                               id="email" name="email" value="{{ old('email') }}" required>
+                        @error('email')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="telefono" class="form-label">Teléfono</label>
+                        <input type="tel" class="form-control @error('telefono') is-invalid @enderror" 
+                               id="telefono" name="telefono" value="{{ old('telefono') }}">
+                        @error('telefono')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="fecha_inicio" class="form-label">Fecha de Inicio *</label>
+                                <input type="date" class="form-control @error('fecha_inicio') is-invalid @enderror" 
+                                       id="fecha_inicio" name="fecha_inicio" value="{{ old('fecha_inicio') }}" required>
+                                @error('fecha_inicio')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="fecha_fin" class="form-label">Fecha de Fin</label>
+                                <input type="date" class="form-control @error('fecha_fin') is-invalid @enderror" 
+                                       id="fecha_fin" name="fecha_fin" value="{{ old('fecha_fin') }}">
+                                @error('fecha_fin')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fas fa-times me-2"></i>Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-check-circle me-2"></i>Guardar Inquilino
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 
 <style>
