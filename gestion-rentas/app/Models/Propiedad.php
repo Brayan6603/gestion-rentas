@@ -40,16 +40,16 @@ class Propiedad extends Model
      */
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     /**
      * Relación: Una propiedad tiene muchos inquilinos
      */
-    public function inquilinos()
-    {
-        return $this->hasMany(Inquilino::class);
-    }
+    // public function inquilinos()
+    // {
+    //     return $this->hasMany(Inquilino::class);
+    // }
 
     /**
      * Relación: Una propiedad tiene muchos pagos
