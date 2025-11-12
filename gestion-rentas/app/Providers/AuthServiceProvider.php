@@ -5,7 +5,9 @@ namespace App\Providers;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 //use Illuminate\Support\Facades\Gate;
 use App\Models\Propiedad;
+use App\Models\Inquilino;
 use App\Policies\PropiedadPolicy;
+use App\Policies\InquilinoPolicy;
 
 
 class AuthServiceProvider extends ServiceProvider
@@ -17,6 +19,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         Propiedad::class => PropiedadPolicy::class,
+        Inquilino::class => InquilinoPolicy::class,
     ];
 
     /**

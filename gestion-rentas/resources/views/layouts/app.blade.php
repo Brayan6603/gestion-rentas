@@ -107,11 +107,11 @@
             <a class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}">
                 <i class="fas fa-gauge me-2"></i>Dashboard
             </a>
-            <a class="nav-link {{ request()->is('inquilinos*') ? 'active' : '' }}" href="#">
-                <i class="fas fa-users me-2"></i>Inquilinos
-            </a>
            <a class="nav-link {{ request()->is('propiedades*') ? 'active' : '' }}" href="{{ route('propiedades.index') }}">
                  <i class="fas fa-building me-2"></i>Departamentos
+            </a>
+            <a class="nav-link {{ request()->is('inquilinos*') ? 'active' : '' }}" href="{{ route('inquilinos.index') }}">
+                <i class="fas fa-users me-2"></i>Inquilinos
             </a>
             <a class="nav-link {{ request()->is('pagos*') ? 'active' : '' }}" href="#">
                 <i class="fas fa-money-bill-wave me-2"></i>Pagos

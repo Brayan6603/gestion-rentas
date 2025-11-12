@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
             //UserSeeder::class,        // Primero usuarios
           //  CategoriaGastoSeeder::class, // Luego categorías de gastos
             PropiedadSeeder::class,   // Después propiedades
-            // InquilinoSeeder::class,  // Después inquilinos (cuando exista)
+            InquilinoSeeder::class,   // Después inquilinos
             // PagoSeeder::class,       // Luego pagos (cuando exista)
             // GastoSeeder::class,      // Luego gastos (cuando exista)
             // DepositoSeeder::class,   // Finalmente depósitos (cuando exista)
