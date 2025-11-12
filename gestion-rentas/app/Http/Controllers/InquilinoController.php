@@ -30,7 +30,38 @@ class InquilinoController extends Controller
                                ->with('propiedad')
                                ->paginate(15);
 
-        return view('inquilinos.index-all', compact('inquilinos'));
+        return view('inquilinos.index-all', compact('inquilinos', 'propiedades'));
+    }
+
+    /**
+     * Show the form for creating a new inquilino from the index-all view.
+     */
+    public function createAll()
+    {
+        // Obtener todas las propiedades del usuario autenticado
+        $propiedades = auth()->user()->propiedades()->get();
+
+        return response()->json([
+            'propiedades' => $propiedades
+        ]);
+    }
+
+    /**
+     * Store a newly created inquilino from the index-all view.
+     */
+    public function storeAll(StoreInquilinoRequest $request)
+    {
+        $validated = $request->validated();
+        
+        // Verificar que la propiedad pertenece al usuario autenticado
+        $propiedad = Propiedad::findOrFail($validated['propiedad_id']);
+        $this->authorize('view', $propiedad);
+
+        $inquilino = Inquilino::create($validated);
+
+        return redirect()
+                ->route('inquilinos.index')
+                ->with('success', 'Inquilino creado exitosamente.');
     }
 
     /**
