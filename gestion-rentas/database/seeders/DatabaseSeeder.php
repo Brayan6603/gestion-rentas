@@ -11,15 +11,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Ejecutar seeders en orden
-        $this->call([
-            //UserSeeder::class,        // Primero usuarios
-          //  CategoriaGastoSeeder::class, // Luego categorías de gastos
-            PropiedadSeeder::class,   // Después propiedades
-            InquilinoSeeder::class,   // Después inquilinos
-            // PagoSeeder::class,       // Luego pagos (cuando exista)
-            // GastoSeeder::class,      // Luego gastos (cuando exista)
-            // DepositoSeeder::class,   // Finalmente depósitos (cuando exista)
-        ]);
+                // Ejecutar seeders en orden
+                $this->call([
+                        //UserSeeder::class,        // Primero usuarios (descomentar si no existen usuarios)
+                       // CategoriaGastoSeeder::class, // Categorías de gastos
+                       // PropiedadSeeder::class,   // Después propiedades
+                        //InquilinoSeeder::class,   // Después inquilinos
+                        PagoSeeder::class,        // Luego pagos
+                        GastoSeeder::class,       // Luego gastos
+                        DepositoSeeder::class,    // Finalmente depósitos
+                ]);
     }
 }
