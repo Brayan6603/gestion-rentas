@@ -8,7 +8,8 @@ class CategoriaGasto extends Model
 {
     use HasFactory;
 
-    protected $table = 'categorias_gastos';
+    // El nombre de la tabla coincide con la migración: 'categoria_gastos'
+    protected $table = 'categoria_gastos';
 
     protected $fillable = [
         'nombre',
