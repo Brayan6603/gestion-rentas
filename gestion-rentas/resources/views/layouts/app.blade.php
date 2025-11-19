@@ -113,7 +113,7 @@
             <a class="nav-link {{ request()->is('inquilinos*') ? 'active' : '' }}" href="{{ route('inquilinos.index') }}">
                 <i class="fas fa-users me-2"></i>Inquilinos
             </a>
-            <a class="nav-link {{ request()->is('pagos*') ? 'active' : '' }}" href="#">
+            <a class="nav-link {{ request()->is('pagos*') ? 'active' : '' }}" href="{{ route('pagos.index') }}">
                 <i class="fas fa-money-bill-wave me-2"></i>Pagos
             </a>
             <a class="nav-link {{ request()->is('gastos*') ? 'active' : '' }}" href="#">
