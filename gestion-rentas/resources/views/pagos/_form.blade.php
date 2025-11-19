@@ -1,0 +1,43 @@
+@csrf
+
+<div class="mb-3">
+    <label class="form-label">Inquilino</label>
+    <select name="inquilino_id" class="form-control">
+        <option value="">-- Seleccione --</option>
+        @foreach($inquilinos as $inquilino)
+            <option value="{{ $inquilino->id }}" {{ old('inquilino_id', $pago->inquilino_id ?? '') == $inquilino->id ? 'selected' : '' }}>
+                {{ $inquilino->nombre }} {{ $inquilino->apellido ?? '' }}
+            </option>
+        @endforeach
+    </select>
+    @error('inquilino_id') <div class="text-danger">{{ $message }}</div> @enderror
+</div>
+
+<div class="mb-3">
+    <label class="form-label">Monto</label>
+    <input type="number" step="0.01" name="monto" class="form-control" value="{{ old('monto', $pago->monto ?? '') }}">
+    @error('monto') <div class="text-danger">{{ $message }}</div> @enderror
+</div>
+
+<div class="mb-3">
+    <label class="form-label">Fecha de pago</label>
+    <input type="date" name="fecha_pago" class="form-control" value="{{ old('fecha_pago', isset($pago->fecha_pago) ? $pago->fecha_pago->format('Y-m-d') : '') }}">
+    @error('fecha_pago') <div class="text-danger">{{ $message }}</div> @enderror
+</div>
+
+<div class="mb-3">
+    <label class="form-label">Mes correspondiente</label>
+    <input type="month" name="mes_correspondiente" class="form-control" value="{{ old('mes_correspondiente', isset($pago->mes_correspondiente) ? $pago->mes_correspondiente->format('Y-m') : '') }}">
+    @error('mes_correspondiente') <div class="text-danger">{{ $message }}</div> @enderror
+</div>
+
+<div class="mb-3">
+    <label class="form-label">Estado</label>
+    <select name="estado" class="form-control">
+        <option value="pendiente" {{ old('estado', $pago->estado ?? '') == 'pendiente' ? 'selected' : '' }}>Pendiente</option>
+        <option value="pagado" {{ old('estado', $pago->estado ?? '') == 'pagado' ? 'selected' : '' }}>Pagado</option>
+    </select>
+    @error('estado') <div class="text-danger">{{ $message }}</div> @enderror
+</div>
+
+<button class="btn btn-primary" type="submit">Guardar</button>

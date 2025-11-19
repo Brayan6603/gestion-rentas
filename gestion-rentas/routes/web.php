@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PropiedadController;
 use App\Http\Controllers\InquilinoController;
+use App\Http\Controllers\PagoController;
 use App\Models\Propiedad;
 use Illuminate\Support\Facades\Route;
 
@@ -45,6 +46,16 @@ Route::middleware('auth')->group(function () {
     Route::resource('propiedades.inquilinos', InquilinoController::class)->parameters([
         'propiedades' => 'propiedad',
         'inquilinos' => 'inquilino'
+    ]);
+
+    // Rutas para pagos
+    // Ruta global para listar todos los pagos (enlace del offcanvas)
+    Route::get('pagos', [PagoController::class, 'indexAll'])->name('pagos.index');
+
+    // Rutas anidadas para pagos dentro de propiedades
+    Route::resource('propiedades.pagos', PagoController::class)->parameters([
+        'propiedades' => 'propiedad',
+        'pagos' => 'pago'
     ]);
 });
 

@@ -2,64 +2,144 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StorePagoRequest;
+use App\Http\Requests\UpdatePagoRequest;
 use App\Models\Pago;
+use App\Models\Propiedad;
 use Illuminate\Http\Request;
 
 class PagoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function __construct()
     {
-        //
+        $this->middleware('auth');
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Display a listing of pagos for a property.
      */
-    public function create()
+    public function index(Propiedad $propiedad)
     {
-        //
+        $this->authorize('view', $propiedad);
+
+        $pagos = $propiedad->pagos()->with('inquilino')->orderByDesc('mes_correspondiente')->paginate(15);
+
+        return view('pagos.index', compact('propiedad', 'pagos'));
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Display a global listing of pagos across propiedades.
      */
-    public function store(Request $request)
+    public function indexAll()
     {
-        //
+        $this->middleware('auth');
+
+        $pagos = Pago::with(['propiedad', 'inquilino'])->orderByDesc('mes_correspondiente')->paginate(20);
+
+        return view('pagos.index_all', compact('pagos'));
     }
 
     /**
-     * Display the specified resource.
+     * Show the form for creating a new pago for a property.
      */
-    public function show(Pago $pago)
+    public function create(Propiedad $propiedad)
     {
-        //
+        $this->authorize('view', $propiedad);
+
+        $inquilinos = $propiedad->inquilinos()->get();
+
+        return view('pagos.create', compact('propiedad', 'inquilinos'));
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Store a newly created pago in storage.
      */
-    public function edit(Pago $pago)
+    public function store(StorePagoRequest $request, Propiedad $propiedad)
     {
-        //
+        $this->authorize('view', $propiedad);
+
+        $validated = $request->validated();
+        // Verificar que el inquilino seleccionado pertenezca a la propiedad
+        if (! $propiedad->inquilinos()->where('id', $validated['inquilino_id'])->exists()) {
+            return back()->withErrors(['inquilino_id' => 'El inquilino seleccionado no pertenece a la propiedad.'])->withInput();
+        }
+
+        $validated['propiedad_id'] = $propiedad->id;
+
+        $pago = Pago::create($validated);
+
+        return redirect()->route('propiedades.pagos.index', $propiedad->id)
+                         ->with('success', 'Pago registrado correctamente.');
     }
 
     /**
-     * Update the specified resource in storage.
+     * Display the specified pago.
      */
-    public function update(Request $request, Pago $pago)
+    public function show(Propiedad $propiedad, Pago $pago)
     {
-        //
+        $this->authorize('view', $propiedad);
+
+        if ($pago->propiedad_id !== $propiedad->id) {
+            abort(404);
+        }
+
+        $pago->load('inquilino', 'propiedad');
+
+        return view('pagos.show', compact('propiedad', 'pago'));
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Show the form for editing the specified pago.
      */
-    public function destroy(Pago $pago)
+    public function edit(Propiedad $propiedad, Pago $pago)
     {
-        //
+        $this->authorize('view', $propiedad);
+
+        if ($pago->propiedad_id !== $propiedad->id) {
+            abort(404);
+        }
+
+        $inquilinos = $propiedad->inquilinos()->get();
+
+        return view('pagos.edit', compact('propiedad', 'pago', 'inquilinos'));
+    }
+
+    /**
+     * Update the specified pago in storage.
+     */
+    public function update(UpdatePagoRequest $request, Propiedad $propiedad, Pago $pago)
+    {
+        $this->authorize('view', $propiedad);
+
+        if ($pago->propiedad_id !== $propiedad->id) {
+            abort(404);
+        }
+
+        $validated = $request->validated();
+        if (! $propiedad->inquilinos()->where('id', $validated['inquilino_id'])->exists()) {
+            return back()->withErrors(['inquilino_id' => 'El inquilino seleccionado no pertenece a la propiedad.'])->withInput();
+        }
+
+        $pago->update($validated);
+
+        return redirect()->route('propiedades.pagos.show', [$propiedad->id, $pago->id])
+                         ->with('success', 'Pago actualizado correctamente.');
+    }
+
+    /**
+     * Remove the specified pago from storage.
+     */
+    public function destroy(Propiedad $propiedad, Pago $pago)
+    {
+        $this->authorize('view', $propiedad);
+
+        if ($pago->propiedad_id !== $propiedad->id) {
+            abort(404);
+        }
+
+        $pago->delete();
+
+        return redirect()->route('propiedades.pagos.index', $propiedad->id)
+                         ->with('success', 'Pago eliminado correctamente.');
     }
 }
