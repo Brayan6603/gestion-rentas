@@ -2,20 +2,33 @@
 
 @section('content')
 <div class="container">
-    <h3>Pago #{{ $pago->id }}</h3>
-
-    <div class="card mb-3">
-        <div class="card-body">
-            <p><strong>Propiedad:</strong> {{ $propiedad->direccion ?? '' }}</p>
-            <p><strong>Inquilino:</strong> {{ optional($pago->inquilino)->nombre }}</p>
-            <p><strong>Mes correspondiente:</strong> {{ optional($pago->mes_correspondiente)->format('Y-m') }}</p>
-            <p><strong>Monto:</strong> {{ number_format($pago->monto,2) }}</p>
-            <p><strong>Fecha pago:</strong> {{ optional($pago->fecha_pago)->format('Y-m-d') }}</p>
-            <p><strong>Estado:</strong> {{ ucfirst($pago->estado) }}</p>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3 class="mb-0">Pago #{{ $pago->id }}</h3>
+        <div>
+            <a href="{{ route('propiedades.pagos.edit', [$propiedad->id, $pago->id]) }}" class="btn btn-outline-primary">Editar</a>
+            <a href="{{ route('propiedades.pagos.index', $propiedad->id) }}" class="btn btn-outline-secondary ms-2">Volver</a>
         </div>
     </div>
 
-    <a href="{{ route('propiedades.pagos.index', $propiedad->id) }}" class="btn btn-secondary">Volver</a>
-    <a href="{{ route('propiedades.pagos.edit', [$propiedad->id, $pago->id]) }}" class="btn btn-primary">Editar</a>
+    <div class="card">
+        <div class="card-body row">
+            <div class="col-md-6">
+                <p class="mb-1"><strong>Propiedad:</strong> {{ $propiedad->direccion ?? '' }}</p>
+                <p class="mb-1"><strong>Inquilino:</strong> {{ optional($pago->inquilino)->nombre }} {{ optional($pago->inquilino)->apellido }}</p>
+                <p class="mb-1"><strong>Mes correspondiente:</strong> {{ optional($pago->mes_correspondiente)->format('Y-m') }}</p>
+            </div>
+            <div class="col-md-6">
+                <p class="mb-1"><strong>Monto:</strong> {{ number_format($pago->monto,2) }}</p>
+                <p class="mb-1"><strong>Fecha pago:</strong> {{ optional($pago->fecha_pago)->format('Y-m-d') }}</p>
+                <p class="mb-1"><strong>Estado:</strong>
+                    @if($pago->estado == 'pagado')
+                        <span class="badge bg-success">Pagado</span>
+                    @else
+                        <span class="badge bg-warning text-dark">Pendiente</span>
+                    @endif
+                </p>
+            </div>
+        </div>
+    </div>
 </div>
 @endsection

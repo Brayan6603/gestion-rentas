@@ -30,13 +30,41 @@ class PagoController extends Controller
     /**
      * Display a global listing of pagos across propiedades.
      */
-    public function indexAll()
+    public function indexAll(Request $request)
     {
-        $this->middleware('auth');
+        $this->authorize('viewAny', Pago::class);
 
-        $pagos = Pago::with(['propiedad', 'inquilino'])->orderByDesc('mes_correspondiente')->paginate(20);
+        // Mostrar solo los pagos pertenecientes a las propiedades del usuario autenticado
+        $propiedadIds = auth()->user()->propiedades()->pluck('id');
 
-        return view('pagos.index_all', compact('pagos'));
+        $query = Pago::whereIn('propiedad_id', $propiedadIds)->with(['propiedad', 'inquilino']);
+
+        // Filtros: propiedad, estado, búsqueda por inquilino
+        if ($request->filled('propiedad_id')) {
+            $query->where('propiedad_id', $request->input('propiedad_id'));
+        }
+
+        if ($request->filled('estado')) {
+            $query->where('estado', $request->input('estado'));
+        }
+
+        if ($request->filled('buscar')) {
+            $buscar = $request->input('buscar');
+            $query->whereHas('inquilino', function ($q) use ($buscar) {
+                $q->where('nombre', 'like', "%{$buscar}%")
+                  ->orWhere('apellido', 'like', "%{$buscar}%");
+            });
+        }
+
+        // Total filtrado
+        $total = (clone $query)->sum('monto');
+
+        $pagos = $query->orderByDesc('mes_correspondiente')->paginate(20)->withQueryString();
+
+        // Obtener propiedades del usuario para el filtro
+        $propiedades = auth()->user()->propiedades()->get();
+
+        return view('pagos.index_all', compact('pagos', 'propiedades', 'total'));
     }
 
     /**
@@ -44,7 +72,7 @@ class PagoController extends Controller
      */
     public function create(Propiedad $propiedad)
     {
-        $this->authorize('view', $propiedad);
+        $this->authorize('create', [Pago::class, $propiedad]);
 
         $inquilinos = $propiedad->inquilinos()->get();
 
@@ -56,7 +84,7 @@ class PagoController extends Controller
      */
     public function store(StorePagoRequest $request, Propiedad $propiedad)
     {
-        $this->authorize('view', $propiedad);
+        $this->authorize('create', [Pago::class, $propiedad]);
 
         $validated = $request->validated();
         // Verificar que el inquilino seleccionado pertenezca a la propiedad
@@ -77,11 +105,11 @@ class PagoController extends Controller
      */
     public function show(Propiedad $propiedad, Pago $pago)
     {
-        $this->authorize('view', $propiedad);
-
         if ($pago->propiedad_id !== $propiedad->id) {
             abort(404);
         }
+
+        $this->authorize('view', $pago);
 
         $pago->load('inquilino', 'propiedad');
 
@@ -93,11 +121,11 @@ class PagoController extends Controller
      */
     public function edit(Propiedad $propiedad, Pago $pago)
     {
-        $this->authorize('view', $propiedad);
-
         if ($pago->propiedad_id !== $propiedad->id) {
             abort(404);
         }
+
+        $this->authorize('update', $pago);
 
         $inquilinos = $propiedad->inquilinos()->get();
 
@@ -109,11 +137,11 @@ class PagoController extends Controller
      */
     public function update(UpdatePagoRequest $request, Propiedad $propiedad, Pago $pago)
     {
-        $this->authorize('view', $propiedad);
-
         if ($pago->propiedad_id !== $propiedad->id) {
             abort(404);
         }
+
+        $this->authorize('update', $pago);
 
         $validated = $request->validated();
         if (! $propiedad->inquilinos()->where('id', $validated['inquilino_id'])->exists()) {
@@ -131,11 +159,11 @@ class PagoController extends Controller
      */
     public function destroy(Propiedad $propiedad, Pago $pago)
     {
-        $this->authorize('view', $propiedad);
-
         if ($pago->propiedad_id !== $propiedad->id) {
             abort(404);
         }
+
+        $this->authorize('delete', $pago);
 
         $pago->delete();
 

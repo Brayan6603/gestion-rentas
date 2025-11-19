@@ -143,10 +143,10 @@
                         <a href="{{ route('propiedades.edit', $propiedad) }}" class="btn btn-warning">
                             <i class="fas fa-edit me-2"></i>Editar Propiedad
                         </a>
-                        <a href="#" class="btn btn-success">
+                        <a href="{{ route('propiedades.inquilinos.index', $propiedad->id) }}" class="btn btn-success">
                             <i class="fas fa-users me-2"></i>Gestionar Inquilinos
                         </a>
-                        <a href="#" class="btn btn-info">
+                        <a href="{{ route('propiedades.pagos.create', $propiedad->id) }}" class="btn btn-info">
                             <i class="fas fa-money-bill-wave me-2"></i>Registrar Pago
                         </a>
                         <a href="#" class="btn btn-secondary">
