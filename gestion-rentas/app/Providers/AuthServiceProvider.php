@@ -6,8 +6,10 @@ use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvid
 //use Illuminate\Support\Facades\Gate;
 use App\Models\Propiedad;
 use App\Models\Inquilino;
+use App\Models\Pago;
 use App\Policies\PropiedadPolicy;
 use App\Policies\InquilinoPolicy;
+use App\Policies\PagoPolicy;
 
 
 class AuthServiceProvider extends ServiceProvider
@@ -20,6 +22,7 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         Propiedad::class => PropiedadPolicy::class,
         Inquilino::class => InquilinoPolicy::class,
+        Pago::class => PagoPolicy::class,
     ];
 
     /**
