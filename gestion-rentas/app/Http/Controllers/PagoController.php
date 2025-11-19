@@ -70,13 +70,17 @@ class PagoController extends Controller
     /**
      * Show the form for creating a new pago for a property.
      */
-    public function create(Propiedad $propiedad)
+    public function create(Propiedad $propiedad, Request $request)
     {
         $this->authorize('create', [Pago::class, $propiedad]);
 
         $inquilinos = $propiedad->inquilinos()->get();
+        
+        // Obtener valores precargados desde query params si existen
+        $inquilinoPreseleccionado = $request->query('inquilino_id');
+        $montoPreseleccionado = $request->query('monto');
 
-        return view('pagos.create', compact('propiedad', 'inquilinos'));
+        return view('pagos.create', compact('propiedad', 'inquilinos', 'inquilinoPreseleccionado', 'montoPreseleccionado'));
     }
 
     /**

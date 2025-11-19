@@ -146,7 +146,14 @@
                         <a href="{{ route('propiedades.inquilinos.index', $propiedad->id) }}" class="btn btn-success">
                             <i class="fas fa-users me-2"></i>Gestionar Inquilinos
                         </a>
-                        <a href="{{ route('propiedades.pagos.create', $propiedad->id) }}" class="btn btn-info">
+                        @php
+                            $inquilinoActual = $propiedad->inquilinoActual();
+                            $urlPago = route('propiedades.pagos.create', $propiedad->id);
+                            if ($inquilinoActual) {
+                                $urlPago .= '?inquilino_id=' . $inquilinoActual->id . '&monto=' . $propiedad->renta_mensual;
+                            }
+                        @endphp
+                        <a href="{{ $urlPago }}" class="btn btn-info">
                             <i class="fas fa-money-bill-wave me-2"></i>Registrar Pago
                         </a>
                         <a href="#" class="btn btn-secondary">
