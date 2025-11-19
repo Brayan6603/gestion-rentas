@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1200" height="800" viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .bg { fill: #f6f7fb; }
+    .nav { fill: #0d6efd; }
+    .offcanvas { fill: #ffffff; stroke: #e6e6e6; }
+    .box { fill: #ffffff; stroke: #dcdcdc; }
+    .muted { fill: #6c757d; font-family: Arial, Helvetica, sans-serif; font-size: 12px; }
+    .title { font-family: Arial, Helvetica, sans-serif; font-size: 18px; fill: #212529; font-weight: bold; }
+    .label { font-family: Arial, Helvetica, sans-serif; font-size: 13px; fill:#495057; }
+  </style>
+
+  <!-- Background -->
+  <rect class="bg" x="0" y="0" width="1200" height="800" rx="0" />
+
+  <!-- Navbar -->
+  <rect class="nav" x="0" y="0" width="1200" height="64" rx="0" />
+  <text x="24" y="40" fill="#ffffff" font-family="Arial" font-size="18">☰</text>
+  <text x="60" y="40" fill="#ffffff" font-family="Arial" font-size="18">Sistema de Rentas - Dashboard</text>
+  <rect x="1030" y="12" width="150" height="40" rx="6" fill="#ffffff" opacity="0.08" />
+  <text x="1040" y="38" fill="#ffffff" font-family="Arial" font-size="14">Usuario ▾</text>
+
+  <!-- Offcanvas / Sidebar -->
+  <rect class="offcanvas" x="16" y="96" width="260" height="648" rx="8" />
+  <text x="32" y="126" class="title">Menu</text>
+  <text x="32" y="150" class="muted">Nombre Usuario</text>
+  <text x="32" y="168" class="muted">user@email.com</text>
+
+  <!-- Sidebar items -->
+  <g transform="translate(0,200)">
+    <rect x="24" y="152" width="216" height="36" rx="6" fill="#f8f9fa" stroke="#e9ecef"/>
+    <text x="40" y="176" class="label">Dashboard</text>
+    <text x="40" y="216" class="label">Departamentos</text>
+    <text x="40" y="256" class="label">Inquilinos</text>
+    <text x="40" y="296" class="label">Pagos</text>
+    <text x="40" y="336" class="label">Gastos</text>
+    <text x="40" y="376" class="label">Reportes ▾</text>
+  </g>
+
+  <!-- Main content area -->
+  <rect class="box" x="300" y="96" width="880" height="648" rx="8" />
+  <text x="320" y="126" class="title">Contenido Principal</text>
+  <text x="320" y="156" class="muted">@yield('content') — aquí se inyectan las vistas</text>
+
+  <!-- Widgets -->
+  <rect x="320" y="180" width="520" height="120" rx="6" fill="#fff" stroke="#e6e6e6" />
+  <text x="336" y="202" class="label">Métricas / Widgets</text>
+
+  <!-- List / Table area -->
+  <rect x="320" y="312" width="520" height="380" rx="6" fill="#fff" stroke="#e6e6e6" />
+  <text x="336" y="336" class="label">Listados: propiedades / inquilinos / pagos</text>
+
+  <!-- Right column -->
+  <rect x="852" y="180" width="320" height="512" rx="6" fill="#fff" stroke="#e6e6e6" />
+  <text x="868" y="202" class="label">Acciones rápidas / Resumen</text>
+
+  <!-- Footer note -->
+  <text x="320" y="760" class="muted">Offcanvas responsive en móviles: el botón hamburguesa abre la barra lateral.</text>
+
+</svg>
