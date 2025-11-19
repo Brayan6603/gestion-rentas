@@ -6,7 +6,7 @@
         <select name="inquilino_id" class="form-select">
             <option value="">-- Seleccione --</option>
             @foreach($inquilinos as $inquilino)
-                <option value="{{ $inquilino->id }}" {{ old('inquilino_id', $pago->inquilino_id ?? '') == $inquilino->id ? 'selected' : '' }}>
+                <option value="{{ $inquilino->id }}" {{ old('inquilino_id', $inquilinoPreseleccionado ?? $pago->inquilino_id ?? '') == $inquilino->id ? 'selected' : '' }}>
                     {{ $inquilino->nombre }} {{ $inquilino->apellido ?? '' }}
                 </option>
             @endforeach
@@ -16,7 +16,7 @@
 
     <div class="col-md-3">
         <label class="form-label">Monto</label>
-        <input type="number" step="0.01" name="monto" class="form-control" value="{{ old('monto', $pago->monto ?? '') }}" placeholder="0.00">
+        <input type="number" step="0.01" name="monto" class="form-control" value="{{ old('monto', $montoPreseleccionado ?? $pago->monto ?? '') }}" placeholder="0.00">
         @error('monto') <div class="text-danger small">{{ $message }}</div> @enderror
     </div>
 
