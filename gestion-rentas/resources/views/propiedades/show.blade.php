@@ -159,6 +159,16 @@
                         <a href="#" class="btn btn-secondary">
                             <i class="fas fa-receipt me-2"></i>Registrar Gasto
                         </a>
+                        @php
+                            $inquilinoActual = $propiedad->inquilinoActual();
+                            $urlDeposito = route('propiedades.depositos.create', $propiedad->id);
+                            if ($inquilinoActual) {
+                                $urlDeposito .= '?inquilino_id=' . $inquilinoActual->id . '&monto=' . $propiedad->deposito_sugerido;
+                            }
+                        @endphp
+                        <a href="{{ $urlDeposito }}" class="btn btn-warning">
+                            <i class="fas fa-shield-alt me-2"></i>Registrar Depósito
+                        </a>
                     </div>
                 </div>
             </div>

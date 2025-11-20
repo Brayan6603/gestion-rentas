@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PropiedadController;
 use App\Http\Controllers\InquilinoController;
 use App\Http\Controllers\PagoController;
+use App\Http\Controllers\DepositoController;
 use App\Models\Propiedad;
 use Illuminate\Support\Facades\Route;
 
@@ -52,10 +53,19 @@ Route::middleware('auth')->group(function () {
     // Ruta global para listar todos los pagos (enlace del offcanvas)
     Route::get('pagos', [PagoController::class, 'indexAll'])->name('pagos.index');
 
+    // Ruta global para listar todos los depósitos (enlace del offcanvas)
+    Route::get('depositos', [DepositoController::class, 'indexAll'])->name('depositos.index');
+
     // Rutas anidadas para pagos dentro de propiedades
     Route::resource('propiedades.pagos', PagoController::class)->parameters([
         'propiedades' => 'propiedad',
         'pagos' => 'pago'
+    ]);
+
+    // Rutas anidadas para depósitos dentro de propiedades
+    Route::resource('propiedades.depositos', DepositoController::class)->parameters([
+        'propiedades' => 'propiedad',
+        'depositos' => 'deposito'
     ]);
 });
 
