@@ -24,8 +24,9 @@
         <label class="form-label">Estado</label>
         <select name="estado" class="form-select">
             <option value="activo" {{ old('estado', $deposito->estado ?? '') == 'activo' ? 'selected' : '' }}>Activo</option>
+            <option value="parcialmente_devuelto" {{ old('estado', $deposito->estado ?? '') == 'parcialmente_devuelto' ? 'selected' : '' }}>Parcialmente Devuelto</option>
             <option value="devuelto" {{ old('estado', $deposito->estado ?? '') == 'devuelto' ? 'selected' : '' }}>Devuelto</option>
-            <option value="parcial" {{ old('estado', $deposito->estado ?? '') == 'parcial' ? 'selected' : '' }}>Parcial</option>
+            <option value="retenido" {{ old('estado', $deposito->estado ?? '') == 'retenido' ? 'selected' : '' }}>Retenido</option>
         </select>
         @error('estado') <div class="text-danger small">{{ $message }}</div> @enderror
     </div>
