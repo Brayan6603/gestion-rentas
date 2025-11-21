@@ -23,8 +23,10 @@
                 <p class="mb-1"><strong>Estado:</strong>
                     @if($deposito->estado == 'devuelto')
                         <span class="badge bg-success">Devuelto</span>
-                    @elseif($deposito->estado == 'parcial')
-                        <span class="badge bg-info">Parcial</span>
+                    @elseif($deposito->estado == 'parcialmente_devuelto')
+                        <span class="badge bg-info">Parcialmente Devuelto</span>
+                    @elseif($deposito->estado == 'retenido')
+                        <span class="badge bg-danger">Retenido</span>
                     @else
                         <span class="badge bg-warning text-dark">Activo</span>
                     @endif

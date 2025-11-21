@@ -16,7 +16,7 @@ class StoreDepositoRequest extends FormRequest
         return [
             'monto' => ['required', 'numeric', 'min:0.01'],
             'fecha_deposito' => ['required', 'date'],
-            'estado' => ['required', 'string', 'in:activo,devuelto,parcial'],
+            'estado' => ['required', 'string', 'in:activo,devuelto,retenido,parcialmente_devuelto'],
             'inquilino_id' => ['required', 'integer', 'exists:inquilinos,id'],
             'monto_devuelto' => ['nullable', 'numeric', 'min:0'],
             'fecha_devolucion' => ['nullable', 'date'],
