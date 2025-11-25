@@ -119,7 +119,7 @@
             <a class="nav-link {{ request()->is('depositos*') ? 'active' : '' }}" href="{{ route('depositos.index') }}">
                 <i class="fas fa-shield-alt me-2"></i>Depósitos
             </a>
-            <a class="nav-link {{ request()->is('gastos*') ? 'active' : '' }}" href="#">
+            <a class="nav-link {{ request()->is('gastos*') ? 'active' : '' }}" href="{{ route('gastos.index') }}">
                 <i class="fas fa-receipt me-2"></i>Gastos
             </a>
 

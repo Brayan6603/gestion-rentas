@@ -156,7 +156,10 @@
                         <a href="{{ $urlPago }}" class="btn btn-info">
                             <i class="fas fa-money-bill-wave me-2"></i>Registrar Pago
                         </a>
-                        <a href="#" class="btn btn-secondary">
+                        @php
+                            $urlGasto = route('propiedades.gastos.create', $propiedad->id);
+                        @endphp
+                        <a href="{{ $urlGasto }}" class="btn btn-secondary">
                             <i class="fas fa-receipt me-2"></i>Registrar Gasto
                         </a>
                         @php
