@@ -93,7 +93,7 @@
                                 </span>
                             </td>
                             <td class="text-end">
-                                <strong>₡ {{ number_format($gasto->monto, 2, ',', '.') }}</strong>
+                                <strong>$ {{ number_format($gasto->monto, 2, ',', '.') }}</strong>
                             </td>
                             <td class="text-center">
                                 <a href="{{ route('propiedades.gastos.show', [$propiedad, $gasto]) }}" 
@@ -122,7 +122,7 @@
                     <tr class="table-light">
                         <td colspan="3" class="text-end"><strong>Total:</strong></td>
                         <td class="text-end">
-                            <strong>₡ {{ number_format($gastos->sum('monto'), 2, ',', '.') }}</strong>
+                            <strong>$ {{ number_format($gastos->sum('monto'), 2, ',', '.') }}</strong>
                         </td>
                         <td></td>
                     </tr>
