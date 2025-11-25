@@ -8,10 +8,14 @@ use App\Models\Propiedad;
 use App\Models\Inquilino;
 use App\Models\Pago;
 use App\Models\Deposito;
+use App\Models\Gasto;
+use App\Models\CategoriaGasto;
 use App\Policies\PropiedadPolicy;
 use App\Policies\InquilinoPolicy;
 use App\Policies\PagoPolicy;
 use App\Policies\DepositoPolicy;
+use App\Policies\GastoPolicy;
+use App\Policies\CategoriaGastoPolicy;
 
 
 class AuthServiceProvider extends ServiceProvider
@@ -26,6 +30,8 @@ class AuthServiceProvider extends ServiceProvider
         Inquilino::class => InquilinoPolicy::class,
         Pago::class => PagoPolicy::class,
         Deposito::class => DepositoPolicy::class,
+        Gasto::class => GastoPolicy::class,
+        CategoriaGasto::class => CategoriaGastoPolicy::class,
     ];
 
     /**

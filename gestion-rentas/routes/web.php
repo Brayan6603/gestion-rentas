@@ -5,6 +5,8 @@ use App\Http\Controllers\PropiedadController;
 use App\Http\Controllers\InquilinoController;
 use App\Http\Controllers\PagoController;
 use App\Http\Controllers\DepositoController;
+use App\Http\Controllers\GastoController;
+use App\Http\Controllers\CategoriaGastoController;
 use App\Models\Propiedad;
 use Illuminate\Support\Facades\Route;
 
@@ -66,6 +68,21 @@ Route::middleware('auth')->group(function () {
     Route::resource('propiedades.depositos', DepositoController::class)->parameters([
         'propiedades' => 'propiedad',
         'depositos' => 'deposito'
+    ]);
+
+    // Rutas para gastos
+    // Ruta global para listar todos los gastos (enlace del offcanvas)
+    Route::get('gastos', [GastoController::class, 'indexAll'])->name('gastos.index');
+
+    // Rutas anidadas para gastos dentro de propiedades
+    Route::resource('propiedades.gastos', GastoController::class)->parameters([
+        'propiedades' => 'propiedad',
+        'gastos' => 'gasto'
+    ]);
+
+    // Rutas para categorías de gasto (recurso global)
+    Route::resource('categoria-gastos', CategoriaGastoController::class)->parameters([
+        'categoria-gastos' => 'categoriaGasto'
     ]);
 });
 

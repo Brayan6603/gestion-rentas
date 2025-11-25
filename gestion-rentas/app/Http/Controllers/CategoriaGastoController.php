@@ -3,63 +3,79 @@
 namespace App\Http\Controllers;
 
 use App\Models\CategoriaGasto;
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreCategoriaGastoRequest;
+use App\Http\Requests\UpdateCategoriaGastoRequest;
 
 class CategoriaGastoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
-        //
+        $this->authorize('viewAny', CategoriaGasto::class);
+        
+        $categorias = CategoriaGasto::withCount('gastos')
+            ->orderBy('nombre')
+            ->paginate(15);
+
+        return view('categorias-gasto.index', compact('categorias'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        $this->authorize('create', CategoriaGasto::class);
+
+        return view('categorias-gasto.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(StoreCategoriaGastoRequest $request)
     {
-        //
+        $this->authorize('create', CategoriaGasto::class);
+
+        CategoriaGasto::create($request->validated());
+
+        return redirect()->route('categoria-gastos.index')
+            ->with('success', 'Categoría de gasto creada exitosamente.');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(CategoriaGasto $categoriaGasto)
     {
-        //
+        $this->authorize('view', $categoriaGasto);
+
+        $categoriaGasto->load(['gastos' => function ($query) {
+            $query->with('propiedad')->orderByDesc('fecha_gasto')->paginate(20);
+        }]);
+
+        return view('categorias-gasto.show', compact('categoriaGasto'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(CategoriaGasto $categoriaGasto)
     {
-        //
+        $this->authorize('update', $categoriaGasto);
+
+        return view('categorias-gasto.edit', compact('categoriaGasto'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, CategoriaGasto $categoriaGasto)
+    public function update(UpdateCategoriaGastoRequest $request, CategoriaGasto $categoriaGasto)
     {
-        //
+        $this->authorize('update', $categoriaGasto);
+
+        $categoriaGasto->update($request->validated());
+
+        return redirect()->route('categoria-gastos.show', $categoriaGasto)
+            ->with('success', 'Categoría de gasto actualizada exitosamente.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(CategoriaGasto $categoriaGasto)
     {
-        //
+        $this->authorize('delete', $categoriaGasto);
+
+        $categoriaGasto->delete();
+
+        return redirect()->route('categoria-gastos.index')
+            ->with('success', 'Categoría de gasto eliminada exitosamente.');
     }
 }
