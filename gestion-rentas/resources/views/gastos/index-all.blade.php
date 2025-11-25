@@ -74,7 +74,7 @@
             <div class="card text-center border-primary">
                 <div class="card-body">
                     <h6 class="card-title text-muted">Gasto Total</h6>
-                    <h3 class="text-primary">₡ {{ number_format($gastos->sum('monto'), 2, ',', '.') }}</h3>
+                    <h3 class="text-primary">$ {{ number_format($gastos->sum('monto'), 2, ',', '.') }}</h3>
                 </div>
             </div>
         </div>
@@ -127,7 +127,7 @@
                                 </span>
                             </td>
                             <td class="text-end">
-                                <strong>₡ {{ number_format($gasto->monto, 2, ',', '.') }}</strong>
+                                <strong>$ {{ number_format($gasto->monto, 2, ',', '.') }}</strong>
                             </td>
                             <td class="text-center">
                                 <a href="{{ route('propiedades.gastos.show', [$gasto->propiedad, $gasto]) }}" 
