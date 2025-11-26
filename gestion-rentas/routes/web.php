@@ -7,6 +7,7 @@ use App\Http\Controllers\PagoController;
 use App\Http\Controllers\DepositoController;
 use App\Http\Controllers\GastoController;
 use App\Http\Controllers\CategoriaGastoController;
+use App\Http\Controllers\DashboardController;
 use App\Models\Propiedad;
 use Illuminate\Support\Facades\Route;
 
@@ -27,9 +28,9 @@ Route::get('/debug-propiedad/{id}', function($id) {
     ]);
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
