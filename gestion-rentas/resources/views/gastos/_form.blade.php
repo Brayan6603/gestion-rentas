@@ -35,7 +35,7 @@
 
                 <div class="col-md-6">
                     <div class="mb-3">
-                        <label for="monto" class="form-label">Monto (₡) *</label>
+                        <label for="monto" class="form-label">Monto ($) *</label>
                         <input type="number" 
                                id="monto" 
                                name="monto" 
