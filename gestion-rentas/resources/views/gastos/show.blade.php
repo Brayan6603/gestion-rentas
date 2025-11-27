@@ -30,7 +30,7 @@
                         </div>
                         <div class="col-md-6">
                             <h6 class="text-muted">Monto</h6>
-                            <p class="h5">₡ {{ number_format($gasto->monto, 2, ',', '.') }}</p>
+                            <p class="h5">$ {{ number_format($gasto->monto, 2, ',', '.') }}</p>
                         </div>
                     </div>
 

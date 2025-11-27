@@ -103,7 +103,7 @@
             <div class="card bg-success text-white shadow-sm">
                 <div class="card-body">
                     <h6 class="card-title"><i class="fas fa-arrow-up me-2"></i>Ingresos</h6>
-                    <h3 class="mb-0">₡ {{ number_format($ingresosMes, 2, ',', '.') }}</h3>
+                    <h3 class="mb-0">$ {{ number_format($ingresosMes, 2, ',', '.') }}</h3>
                     <small>Pagos recibidos</small>
                 </div>
             </div>
@@ -113,7 +113,7 @@
             <div class="card bg-danger text-white shadow-sm">
                 <div class="card-body">
                     <h6 class="card-title"><i class="fas fa-arrow-down me-2"></i>Gastos</h6>
-                    <h3 class="mb-0">₡ {{ number_format($gastosMes, 2, ',', '.') }}</h3>
+                    <h3 class="mb-0">$ {{ number_format($gastosMes, 2, ',', '.') }}</h3>
                     <small>Gastos registrados</small>
                 </div>
             </div>
@@ -123,7 +123,7 @@
             <div class="card bg-{{ $balanceMes >= 0 ? 'primary' : 'warning' }} text-white shadow-sm">
                 <div class="card-body">
                     <h6 class="card-title"><i class="fas fa-balance-scale me-2"></i>Balance</h6>
-                    <h3 class="mb-0">₡ {{ number_format($balanceMes, 2, ',', '.') }}</h3>
+                    <h3 class="mb-0">$ {{ number_format($balanceMes, 2, ',', '.') }}</h3>
                     <small>{{ $balanceMes >= 0 ? 'Positivo' : 'Negativo' }}</small>
                 </div>
             </div>
@@ -133,7 +133,7 @@
             <div class="card bg-info text-white shadow-sm">
                 <div class="card-body">
                     <h6 class="card-title"><i class="fas fa-shield-alt me-2"></i>Depósitos Activos</h6>
-                    <h3 class="mb-0">₡ {{ number_format($depositosActivos, 2, ',', '.') }}</h3>
+                    <h3 class="mb-0">$ {{ number_format($depositosActivos, 2, ',', '.') }}</h3>
                     <small>{{ $depositosCount }} depósitos</small>
                 </div>
             </div>
@@ -196,7 +196,7 @@
                                             </small>
                                         </div>
                                         <div class="text-end">
-                                            <strong class="text-success">₡ {{ number_format($pago->monto, 2, ',', '.') }}</strong><br>
+                                            <strong class="text-success">$ {{ number_format($pago->monto, 2, ',', '.') }}</strong><br>
                                             <small class="text-muted">{{ $pago->fecha_pago->format('d/m/Y') }}</small>
                                         </div>
                                     </div>
@@ -241,7 +241,7 @@
                                             </span>
                                         </div>
                                         <div class="text-end">
-                                            <strong class="text-danger">₡ {{ number_format($gasto->monto, 2, ',', '.') }}</strong><br>
+                                            <strong class="text-danger">$ {{ number_format($gasto->monto, 2, ',', '.') }}</strong><br>
                                             <small class="text-muted">{{ $gasto->fecha_gasto->format('d/m/Y') }}</small>
                                         </div>
                                     </div>
@@ -280,7 +280,7 @@
                                         <div class="me-3" style="width: 40px; height: 40px; background-color: {{ $gastoCategoria->categoria->color }}; border-radius: 8px;"></div>
                                         <div>
                                             <h6 class="mb-0">{{ $gastoCategoria->categoria->nombre }}</h6>
-                                            <strong class="text-danger">₡ {{ number_format($gastoCategoria->total, 2, ',', '.') }}</strong>
+                                            <strong class="text-danger">$ {{ number_format($gastoCategoria->total, 2, ',', '.') }}</strong>
                                         </div>
                                     </div>
                                 </div>
