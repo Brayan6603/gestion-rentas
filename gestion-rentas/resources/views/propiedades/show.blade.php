@@ -135,7 +135,7 @@
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
                     <h6 class="m-0 font-weight-bold text-primary">
-                        <i class="fas fa-bolt me-2"></i>Acciones Rápidas
+                        <i class="fas fa-gamepad me-2"></i>Acciones
                     </h6>
                 </div>
                 <div class="card-body">
@@ -146,31 +146,17 @@
                         <a href="{{ route('propiedades.inquilinos.index', $propiedad->id) }}" class="btn btn-success">
                             <i class="fas fa-users me-2"></i>Gestionar Inquilinos
                         </a>
-                        @php
-                            $inquilinoActual = $propiedad->inquilinoActual();
-                            $urlPago = route('propiedades.pagos.create', $propiedad->id);
-                            if ($inquilinoActual) {
-                                $urlPago .= '?inquilino_id=' . $inquilinoActual->id . '&monto=' . $propiedad->renta_mensual;
-                            }
-                        @endphp
-                        <a href="{{ $urlPago }}" class="btn btn-info">
-                            <i class="fas fa-money-bill-wave me-2"></i>Registrar Pago
+                        
+                        <a href="{{ route('propiedades.pagos.index', $propiedad->id) }}" class="btn btn-info">
+                            <i class="fas fa-money-bill-wave me-2"></i>Gestionar Pagos
                         </a>
-                        @php
-                            $urlGasto = route('propiedades.gastos.create', $propiedad->id);
-                        @endphp
-                        <a href="{{ $urlGasto }}" class="btn btn-secondary">
-                            <i class="fas fa-receipt me-2"></i>Registrar Gasto
+                       
+                        <a href="{{ route('propiedades.gastos.index', $propiedad->id) }}" class="btn btn-secondary">
+                            <i class="fas fa-receipt me-2"></i>Gestionar Gastos
                         </a>
-                        @php
-                            $inquilinoActual = $propiedad->inquilinoActual();
-                            $urlDeposito = route('propiedades.depositos.create', $propiedad->id);
-                            if ($inquilinoActual) {
-                                $urlDeposito .= '?inquilino_id=' . $inquilinoActual->id . '&monto=' . $propiedad->deposito_sugerido;
-                            }
-                        @endphp
-                        <a href="{{ $urlDeposito }}" class="btn btn-warning">
-                            <i class="fas fa-shield-alt me-2"></i>Registrar Depósito
+                        
+                        <a href="{{ route('propiedades.depositos.index', $propiedad->id) }}" class="btn btn-warning">
+                            <i class="fas fa-shield-alt me-2"></i>Gestionar Depósitos
                         </a>
                     </div>
                 </div>
