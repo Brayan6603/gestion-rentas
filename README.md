@@ -58,13 +58,13 @@ Sistema web desarrollado en Laravel para automatizar la gestión de propiedades 
 
 \### 🔄 En Desarrollo
 
-\- \[ ] MVC de Propiedades (actual)
+\- \[x] MVC de Propiedades
 
-\- \[ ] MVC de Inquilinos
+\- \[x] MVC de Inquilinos
 
-\- \[ ] MVC de Pagos y Gastos
+\- \[x] MVC de Pagos y Gastos
 
-\- \[ ] Sistema de Depósitos
+\- \[x] Sistema de Depósitos
 
 \- \[ ] Reportes financieros
 
