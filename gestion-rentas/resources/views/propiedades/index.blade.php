@@ -93,15 +93,15 @@
                                         </span>
                                     @endif
                                 </td>
-                                <td>
-                                    <div class="btn-group btn-group-sm" role="group">
+                                <td class="text-center">
+                                    <div class="d-inline-flex gap-1">
                                         <a href="{{ route('propiedades.show', $propiedad) }}" 
-                                           class="btn btn-info" 
+                                           class="btn btn-sm btn-info" 
                                            title="Ver detalles">
                                             <i class="fas fa-eye"></i>
                                         </a>
                                         <a href="{{ route('propiedades.edit', $propiedad) }}" 
-                                           class="btn btn-warning" 
+                                           class="btn btn-sm btn-warning" 
                                            title="Editar">
                                             <i class="fas fa-edit"></i>
                                         </a>
@@ -111,7 +111,7 @@
                                               onsubmit="return confirm('¿Estás seguro de que quieres eliminar esta propiedad?');">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-danger" title="Eliminar">
+                                            <button type="submit" class="btn btn-sm btn-danger" title="Eliminar">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </form>

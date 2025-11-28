@@ -96,24 +96,26 @@
                                 <strong>$ {{ number_format($gasto->monto, 2, ',', '.') }}</strong>
                             </td>
                             <td class="text-center">
-                                <a href="{{ route('propiedades.gastos.show', [$propiedad, $gasto]) }}" 
-                                   class="btn btn-sm btn-info" title="Ver">
-                                    <i class="fas fa-eye"></i>
-                                </a>
-                                <a href="{{ route('propiedades.gastos.edit', [$propiedad, $gasto]) }}" 
-                                   class="btn btn-sm btn-warning" title="Editar">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                <form action="{{ route('propiedades.gastos.destroy', [$propiedad, $gasto]) }}" 
-                                      method="POST" class="d-inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-danger" 
-                                            onclick="return confirm('¿Está seguro?')" 
-                                            title="Eliminar">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </form>
+                                <div class="d-inline-flex gap-1">
+                                    <a href="{{ route('propiedades.gastos.show', [$propiedad, $gasto]) }}" 
+                                       class="btn btn-sm btn-info" title="Ver">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a href="{{ route('propiedades.gastos.edit', [$propiedad, $gasto]) }}" 
+                                       class="btn btn-sm btn-warning" title="Editar">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <form action="{{ route('propiedades.gastos.destroy', [$propiedad, $gasto]) }}" 
+                                          method="POST" class="d-inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-danger" 
+                                                onclick="return confirm('¿Está seguro?')" 
+                                                title="Eliminar">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                     @endforeach
