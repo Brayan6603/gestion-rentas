@@ -7,8 +7,15 @@
             <h3 class="mb-0">Pagos - {{ $propiedad->direccion ?? 'Propiedad' }}</h3>
             <div class="text-muted small">Total pagos mostrados: <strong>{{ number_format($pagos->sum('monto'),2) }}</strong></div>
         </div>
+        @php
+            $inquilinoActual = $propiedad->inquilinoActual();
+            $urlPago = route('propiedades.pagos.create', $propiedad->id);
+            if ($inquilinoActual) {
+                $urlPago .= '?inquilino_id=' . $inquilinoActual->id . '&monto=' . $propiedad->renta_mensual;
+            }
+        @endphp
         <div>
-            <a href="{{ route('propiedades.pagos.create', $propiedad->id) }}" class="btn btn-success">Registrar pago</a>
+            <a href="{{ $urlPago }}" class="btn btn-success">Registrar pago</a>
         </div>
     </div>
 

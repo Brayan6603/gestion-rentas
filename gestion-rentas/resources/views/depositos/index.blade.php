@@ -7,8 +7,15 @@
             <h3 class="mb-0">Depósitos - {{ $propiedad->direccion ?? 'Propiedad' }}</h3>
             <div class="text-muted small">Total depósitos activos: <strong>{{ number_format($depositos->where('estado', '!=', 'devuelto')->sum('monto'),2) }}</strong></div>
         </div>
+        @php
+            $inquilinoActual = $propiedad->inquilinoActual();
+            $urlDeposito = route('propiedades.depositos.create', $propiedad->id);
+            if ($inquilinoActual) {
+                $urlDeposito .= '?inquilino_id=' . $inquilinoActual->id . '&monto=' . $propiedad->deposito_sugerido;
+            }
+        @endphp
         <div>
-            <a href="{{ route('propiedades.depositos.create', $propiedad->id) }}" class="btn btn-success">Registrar depósito</a>
+            <a href="{{ $urlDeposito }}" class="btn btn-success">Registrar depósito</a>
         </div>
     </div>
 
