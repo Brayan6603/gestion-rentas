@@ -7,6 +7,7 @@ use App\Http\Controllers\PagoController;
 use App\Http\Controllers\DepositoController;
 use App\Http\Controllers\GastoController;
 use App\Http\Controllers\CategoriaGastoController;
+use App\Http\Controllers\ReporteController;
 use App\Http\Controllers\DashboardController;
 use App\Models\Propiedad;
 use Illuminate\Support\Facades\Route;
@@ -85,6 +86,14 @@ Route::middleware('auth')->group(function () {
     Route::resource('categoria-gastos', CategoriaGastoController::class)->parameters([
         'categoria-gastos' => 'categoriaGasto'
     ]);
+
+    // Rutas para reportes
+    Route::prefix('reportes')->name('reportes.')->group(function () {
+        Route::get('balance-general', [ReporteController::class, 'balanceGeneral'])->name('balance-general');
+        Route::get('estado-cuenta', [ReporteController::class, 'estadoCuenta'])->name('estado-cuenta');
+        Route::get('mensual', [ReporteController::class, 'mensual'])->name('mensual');
+        Route::get('anual', [ReporteController::class, 'anual'])->name('anual');
+    });
 });
 
 
