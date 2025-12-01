@@ -17,7 +17,7 @@ class StorePagoRequest extends FormRequest
             'monto' => ['required', 'numeric', 'min:0.01'],
             'fecha_pago' => ['nullable', 'date'],
             'mes_correspondiente' => ['required', 'date'],
-            'estado' => ['required', 'string', 'in:pendiente,pagado'],
+            'estado' => ['required', 'string', 'in:pendiente,pagado,parcial'],
             'inquilino_id' => ['required', 'integer', 'exists:inquilinos,id'],
         ];
     }

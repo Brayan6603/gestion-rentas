@@ -31,6 +31,8 @@
                         <option value="">Todos</option>
                         <option value="pendiente" {{ request('estado')=='pendiente' ? 'selected':'' }}>Pendiente</option>
                         <option value="pagado" {{ request('estado')=='pagado' ? 'selected':'' }}>Pagado</option>
+                        <option value="parcial" {{ request('estado')=='parcial' ? 'selected':'' }}>Pagado parcialmente</option>
+                        <option value="vencido" {{ request('estado')=='vencido' ? 'selected':'' }}>Vencido</option>
                     </select>
                 </div>
                 <div class="col-md-3">
@@ -76,6 +78,10 @@
                     <td>
                         @if($pago->estado == 'pagado')
                             <span class="badge bg-success">Pagado</span>
+                        @elseif($pago->estado == 'parcial')
+                            <span class="badge bg-info text-dark">Parcial</span>
+                        @elseif($pago->estado == 'vencido')
+                            <span class="badge bg-danger">Vencido</span>
                         @else
                             <span class="badge bg-warning text-dark">Pendiente</span>
                         @endif

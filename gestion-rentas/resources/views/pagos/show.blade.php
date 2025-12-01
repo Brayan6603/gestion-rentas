@@ -23,6 +23,10 @@
                 <p class="mb-1"><strong>Estado:</strong>
                     @if($pago->estado == 'pagado')
                         <span class="badge bg-success">Pagado</span>
+                    @elseif($pago->estado == 'parcial')
+                        <span class="badge bg-info text-dark">Parcial</span>
+                    @elseif($pago->estado == 'vencido')
+                        <span class="badge bg-danger">Vencido</span>
                     @else
                         <span class="badge bg-warning text-dark">Pendiente</span>
                     @endif

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->decimal('monto', 10,2);
             $table->date('fecha_pago');
             $table->date('mes_correspondiente');
-            $table->enum('estado', ['pendiente', 'pagado', 'vencido'])->default('pendiente');
+            $table->enum('estado', ['pendiente', 'pagado', 'parcial', 'vencido'])->default('pendiente');
             $table->foreignId('propiedad_id')->constrained('propiedades')->onDelete('cascade');
             $table->foreignId('inquilino_id')->constrained('inquilinos')->onDelete('cascade');
             $table->timestamps();

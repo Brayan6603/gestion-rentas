@@ -25,6 +25,7 @@
         <select name="estado" class="form-select">
             <option value="pendiente" {{ old('estado', $pago->estado ?? '') == 'pendiente' ? 'selected' : '' }}>Pendiente</option>
             <option value="pagado" {{ old('estado', $pago->estado ?? '') == 'pagado' ? 'selected' : '' }}>Pagado</option>
+            <option value="parcial" {{ old('estado', $pago->estado ?? '') == 'parcial' ? 'selected' : '' }}>Pagado parcialmente</option>
         </select>
         @error('estado') <div class="text-danger small">{{ $message }}</div> @enderror
     </div>
