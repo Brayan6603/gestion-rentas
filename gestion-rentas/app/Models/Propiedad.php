@@ -105,6 +105,40 @@ class Propiedad extends Model
     }
 
     /**
+     * Crear (si no existe) el pago pendiente del mes actual
+     * para esta propiedad y su inquilino actual.
+     */
+    public function asegurarPagoPendienteMesActual()
+    {
+        $inquilinoActual = $this->inquilinoActual();
+
+        if (! $inquilinoActual) {
+            return null;
+        }
+
+        $mesInicio = now()->startOfMonth();
+
+        $pagoExistente = $this->pagos()
+            ->whereDate('mes_correspondiente', $mesInicio)
+            ->where('inquilino_id', $inquilinoActual->id)
+            ->first();
+
+        if ($pagoExistente) {
+            return $pagoExistente;
+        }
+
+        return $this->pagos()->create([
+            'monto' => $this->renta_mensual,
+            // Para pagos pendientes usamos la fecha del mes correspondiente
+            // como fecha_pago inicial para cumplir la restricción NOT NULL.
+            'fecha_pago' => $mesInicio,
+            'mes_correspondiente' => $mesInicio,
+            'estado' => 'pendiente',
+            'inquilino_id' => $inquilinoActual->id,
+        ]);
+    }
+
+    /**
      * Calcular el depósito sugerido (1 mes de renta)
      */
     public function getDepositoSugeridoAttribute()
