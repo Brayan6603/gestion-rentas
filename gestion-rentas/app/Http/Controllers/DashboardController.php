@@ -50,11 +50,12 @@ class DashboardController extends Controller
         $mesActual = now()->format('Y-m');
         
         $ingresosMes = Pago::whereHas('propiedad', function($q) use ($user) {
-            $q->where('user_id', $user->id);
-        })
-        ->whereYear('fecha_pago', now()->year)
-        ->whereMonth('fecha_pago', now()->month)
-        ->sum('monto');
+                $q->where('user_id', $user->id);
+            })
+            ->whereIn('estado', ['pagado', 'parcial'])
+            ->whereYear('fecha_pago', now()->year)
+            ->whereMonth('fecha_pago', now()->month)
+            ->sum('monto');
         
         $gastosMes = Gasto::whereHas('propiedad', function($q) use ($user) {
             $q->where('user_id', $user->id);
@@ -77,6 +78,7 @@ class DashboardController extends Controller
             ->whereHas('propiedad', function($q) use ($user) {
                 $q->where('user_id', $user->id);
             })
+            ->whereIn('estado', ['pagado', 'parcial'])
             ->orderByDesc('fecha_pago')
             ->limit(5)
             ->get();
