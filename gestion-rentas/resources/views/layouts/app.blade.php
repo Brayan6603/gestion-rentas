@@ -131,26 +131,26 @@
                 </a>
                 <ul class="dropdown-menu">
                     <li>
-                        <a class="dropdown-item {{ request()->routeIs('') ? 'active' : '' }}" 
-                           href="#">
+                        <a class="dropdown-item {{ request()->routeIs('reportes.balance-general') ? 'active' : '' }}" 
+                           href="{{ route('reportes.balance-general') }}">
                             <i class="fas fa-balance-scale me-2"></i>Balance General
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item {{ request()->routeIs('') ? 'active' : '' }}" 
-                           href="#">
+                        <a class="dropdown-item {{ request()->routeIs('reportes.estado-cuenta') ? 'active' : '' }}" 
+                           href="{{ route('reportes.estado-cuenta') }}">
                             <i class="fas fa-file-invoice-dollar me-2"></i>Estado de Cuenta
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item {{ request()->routeIs('') ? 'active' : '' }}" 
-                           href="#">
+                        <a class="dropdown-item {{ request()->routeIs('reportes.mensual') ? 'active' : '' }}" 
+                           href="{{ route('reportes.mensual') }}">
                             <i class="fas fa-chart-bar me-2"></i>Reporte Mensual
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item {{ request()->routeIs('') ? 'active' : '' }}" 
-                           href="#">
+                        <a class="dropdown-item {{ request()->routeIs('reportes.anual') ? 'active' : '' }}" 
+                           href="{{ route('reportes.anual') }}">
                             <i class="fas fa-chart-pie me-2"></i>Reporte Anual
                         </a>
                     </li>
