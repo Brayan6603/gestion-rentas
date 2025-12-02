@@ -12,12 +12,14 @@
             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalNuevoInquilino">
                 <i class="fas fa-plus-circle me-2"></i>Nuevo Inquilino
             </button>
-            <div class="input-group d-inline-flex" style="width: auto; margin-left: 10px;">
-                <input type="text" class="form-control" placeholder="Buscar por nombre, email...">
-                <button class="btn btn-outline-secondary" type="button">
-                    <i class="fas fa-search"></i>
-                </button>
-            </div>
+            <form method="GET" action="{{ route('inquilinos.index') }}" class="d-inline-flex ms-2">
+                <div class="input-group" style="width: auto;">
+                    <input type="text" name="buscar" value="{{ request('buscar') }}" class="form-control" placeholder="Buscar por nombre, email...">
+                    <button class="btn btn-outline-secondary" type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 
