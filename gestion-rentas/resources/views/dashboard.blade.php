@@ -154,23 +154,23 @@
         </div>
 
         <div class="col-md-3">
-            <a href="{{ route('inquilinos.createAll') }}" class="btn btn-success w-100 py-3 shadow-sm">
-                <i class="fas fa-user-plus fa-2x d-block mb-2"></i>
-                Nuevo Inquilino
+            <a href="{{ route('inquilinos.index') }}" class="btn btn-success w-100 py-3 shadow-sm">
+                <i class="fas fa-user fa-2x d-block mb-2"></i>
+                Inquilinos
             </a>
         </div>
 
         <div class="col-md-3">
             <a href="{{ route('pagos.index') }}" class="btn btn-info w-100 py-3 shadow-sm">
                 <i class="fas fa-money-bill-wave fa-2x d-block mb-2"></i>
-                Registrar Pago
+                Pagos
             </a>
         </div>
 
         <div class="col-md-3">
             <a href="{{ route('gastos.index') }}" class="btn btn-warning w-100 py-3 shadow-sm">
                 <i class="fas fa-receipt fa-2x d-block mb-2"></i>
-                Registrar Gasto
+                Gastos
             </a>
         </div>
     </div>
