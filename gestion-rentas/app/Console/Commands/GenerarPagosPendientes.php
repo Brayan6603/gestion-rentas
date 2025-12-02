@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Pago;
 use App\Models\Propiedad;
 use Illuminate\Console\Command;
 
@@ -21,7 +22,7 @@ class GenerarPagosPendientes extends Command
      *
      * @var string
      */
-    protected $description = 'Genera pagos pendientes para el mes actual en todas las propiedades rentadas con inquilino activo.';
+    protected $description = 'Genera pagos pendientes para el mes actual y actualiza el estado de pagos vencidos.';
 
     /**
      * Execute the console command.
@@ -42,7 +43,25 @@ class GenerarPagosPendientes extends Command
             }
         }
 
-        $this->info("Proceso finalizado. Pagos pendientes creados: {$totalCreados}.");
+        $this->info("Pagos pendientes creados para el mes actual: {$totalCreados}.");
+
+        // Actualizar pagos vencidos: pagos que no están pagados ni parciales
+        // y cuya fecha límite (fin de mes correspondiente + 3 días) ya pasó.
+        $this->info('Actualizando pagos vencidos...');
+
+        $hoy = now();
+
+        $pagosVencidos = Pago::whereIn('estado', ['pendiente'])
+            ->whereDate(
+                // fecha límite = fin de mes correspondiente + 3 días
+                // usamos mes_correspondiente como primer día del mes
+                'mes_correspondiente',
+                '<=',
+                $hoy->copy()->subDays(3)->startOfMonth()
+            )
+            ->update(['estado' => 'vencido']);
+
+        $this->info("Pagos marcados como vencidos: {$pagosVencidos}.");
 
         return Command::SUCCESS;
     }
