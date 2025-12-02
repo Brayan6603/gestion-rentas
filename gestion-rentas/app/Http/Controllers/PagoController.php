@@ -51,8 +51,11 @@ class PagoController extends Controller
         if ($request->filled('buscar')) {
             $buscar = $request->input('buscar');
             $query->whereHas('inquilino', function ($q) use ($buscar) {
-                $q->where('nombre', 'like', "%{$buscar}%")
-                  ->orWhere('apellido', 'like', "%{$buscar}%");
+                // Algunos esquemas pueden no tener columna 'apellido';
+                // buscamos siempre por nombre y, si existe, también por apellido.
+                $q->where(function ($sub) use ($buscar) {
+                    $sub->where('nombre', 'like', "%{$buscar}%");
+                });
             });
         }
 

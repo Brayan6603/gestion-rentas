@@ -20,15 +20,28 @@ class InquilinoController extends Controller
     /**
      * Display a listing of all inquilinos for the authenticated user.
      */
-    public function indexAll()
+    public function indexAll(\Illuminate\Http\Request $request)
     {
         // Obtener todas las propiedades del usuario autenticado con sus inquilinos
         $propiedades = auth()->user()->propiedades()->with('inquilinos')->get();
-        
-        // Obtener todos los inquilinos del usuario (paginados)
-        $inquilinos = Inquilino::whereIn('propiedad_id', $propiedades->pluck('id'))
-                               ->with('propiedad')
-                               ->paginate(15);
+
+        $propiedadIds = $propiedades->pluck('id');
+
+        // Base query: todos los inquilinos del usuario
+        $query = Inquilino::whereIn('propiedad_id', $propiedadIds)
+                          ->with('propiedad');
+
+        // Filtro de búsqueda por nombre o email
+        if ($request->filled('buscar')) {
+            $buscar = $request->input('buscar');
+            $query->where(function ($q) use ($buscar) {
+                $q->where('nombre', 'like', "%{$buscar}%")
+                  ->orWhere('email', 'like', "%{$buscar}%");
+            });
+        }
+
+        // Paginación con query string para mantener el término de búsqueda
+        $inquilinos = $query->paginate(15)->withQueryString();
 
         return view('inquilinos.index-all', compact('inquilinos', 'propiedades'));
     }
