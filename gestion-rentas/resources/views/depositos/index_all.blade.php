@@ -61,8 +61,10 @@
                             <label class="form-label small">Fecha hasta</label>
                             <input type="date" name="fecha_hasta" value="{{ request('fecha_hasta') }}" class="form-control">
                         </div>
-                        <div class="col-md-6 text-end">
-                            <a href="{{ route('depositos.index') }}" class="btn btn-link">Reset</a>
+                        <div class="col-md-6 text-center">
+                            <a href="{{ route('depositos.index') }}" class="btn btn-outline-secondary">
+                                <i class="fas fa-undo"></i> Reset
+                            </a>
                         </div>
                     </form>
                 </div>
