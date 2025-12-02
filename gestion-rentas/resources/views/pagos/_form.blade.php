@@ -57,15 +57,19 @@
         const montoInput = document.getElementById('monto');
         const montoHelp = document.getElementById('monto-help');
         const rentaBase = {{ (float) ($propiedad->renta_mensual ?? 0) }};
+        const montoOriginal = montoInput ? parseFloat(montoInput.value || 0) : 0;
+        let ultimoEstado = estadoSelect ? estadoSelect.value : null;
 
         function formatNumber(n) {
             return n.toLocaleString('es-CR', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
         }
 
         function actualizarAyudaSegunEstado() {
-            if (!estadoSelect || !montoInput || rentaBase <= 0) return;
+            if (!estadoSelect || !montoInput) return;
 
-            if (estadoSelect.value === 'vencido') {
+            const estadoActual = estadoSelect.value;
+
+            if (estadoActual === 'vencido' && rentaBase > 0) {
                 const penalizacion = rentaBase * 0.10;
                 const total = rentaBase + penalizacion;
 
@@ -75,16 +79,27 @@
                 const baseStr = formatNumber(rentaBase);
                 const penStr = formatNumber(penalizacion);
                 montoHelp.textContent = `${baseStr} + ${penStr}`;
-            } else if (estadoSelect.value === 'parcial') {
-                // En parcial NO tocamos el valor, solo mostramos ayuda
-                const pagado = parseFloat(montoInput.value || 0);
-                const restante = Math.max(rentaBase - pagado, 0);
+            } else if (estadoActual === 'parcial' && rentaBase > 0) {
+                // Si venimos de vencido, restauramos el monto original primero
+                if (ultimoEstado === 'vencido' && !isNaN(montoOriginal) && montoOriginal > 0) {
+                    montoInput.value = montoOriginal.toFixed(2);
+                }
 
-                const rentaStr = formatNumber(rentaBase);
+                const pagadoAhora = parseFloat(montoInput.value || 0);
+                // En parcial usamos la renta mensual como referencia para total y restante
+                const restante = Math.max(rentaBase - pagadoAhora, 0);
+
+                const totalStr = formatNumber(rentaBase);
                 const restanteStr = formatNumber(restante);
-                montoHelp.textContent = `Renta: ${rentaStr} | Restante: ${restanteStr}`;
+                montoHelp.textContent = `Total renta: ${totalStr} | Restante: ${restanteStr}`;
             } else {
-                // Otros estados: no modificamos el monto
+                // Pendiente o Pagado: usar renta base como referencia en el input
+                if (rentaBase > 0) {
+                    montoInput.value = rentaBase.toFixed(2);
+                } else if (!isNaN(montoOriginal) && montoOriginal > 0) {
+                    // Si no hay renta definida, caer de vuelta al monto original
+                    montoInput.value = montoOriginal.toFixed(2);
+                }
                 montoHelp.textContent = '';
             }
         }
@@ -92,6 +107,7 @@
         if (estadoSelect) {
             estadoSelect.addEventListener('change', function () {
                 actualizarAyudaSegunEstado();
+                ultimoEstado = estadoSelect.value;
             });
         }
 
