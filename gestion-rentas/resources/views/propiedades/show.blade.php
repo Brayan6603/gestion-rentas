@@ -172,9 +172,28 @@
                 <div class="card-body">
                     <div class="text-center">
                         <div class="mb-3">
+                            <i class="fas fa-user-check fa-2x text-info mb-2"></i>
+                            @php
+                                $inquilinoActual = $propiedad->inquilinoActual();
+                            @endphp
+
+                            @if($inquilinoActual)
+                                <h6 class="mb-1">{{ $inquilinoActual->nombre }}</h6>
+                                @if($inquilinoActual->fecha_inicio)
+                                    <small class="text-muted">
+                                        Desde {{ $inquilinoActual->fecha_inicio->format('d/m/Y') }}
+                                    </small>
+                                @endif
+                            @else
+                                <h6 class="mb-1">Sin inquilino actual</h6>
+                                <small class="text-muted">La propiedad está disponible</small>
+                            @endif
+                        </div>
+
+                        <div class="mb-3">
                             <i class="fas fa-users fa-2x text-primary mb-2"></i>
                             <h5>{{ $propiedad->inquilinos->count() }}</h5>
-                            <small class="text-muted">Inquilinos Activos</small>
+                            <small class="text-muted">Número de inquilinos Registrados (Histórico)</small>
                         </div>
                         <div class="mb-3">
                             <i class="fas fa-money-bill-wave fa-2x text-success mb-2"></i>
