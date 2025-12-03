@@ -23,7 +23,13 @@ class InquilinoController extends Controller
     public function indexAll(\Illuminate\Http\Request $request)
     {
         // Obtener todas las propiedades del usuario autenticado con sus inquilinos
+        // (separaremos las disponibles para el modal de nuevo inquilino)
         $propiedades = auth()->user()->propiedades()->with('inquilinos')->get();
+
+        // Solo propiedades disponibles para asignar nuevos inquilinos
+        $propiedadesDisponibles = auth()->user()->propiedades()
+            ->disponibles()
+            ->get();
 
         $propiedadIds = $propiedades->pluck('id');
 
@@ -43,7 +49,10 @@ class InquilinoController extends Controller
         // Paginación con query string para mantener el término de búsqueda
         $inquilinos = $query->paginate(15)->withQueryString();
 
-        return view('inquilinos.index-all', compact('inquilinos', 'propiedades'));
+        return view('inquilinos.index-all', [
+            'inquilinos' => $inquilinos,
+            'propiedades' => $propiedadesDisponibles,
+        ]);
     }
     //hola
     /**
