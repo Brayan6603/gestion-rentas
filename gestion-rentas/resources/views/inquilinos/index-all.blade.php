@@ -79,12 +79,12 @@
                                    class="btn btn-sm btn-info" title="Ver detalle">
                                     <i class="fas fa-eye"></i> Ver
                                 </a>
-                                <a href="{{ route('propiedades.inquilinos.edit', [$inquilino->propiedad_id, $inquilino->id]) }}" 
-                                   class="btn btn-sm btn-warning" title="Editar">
+                                          <a href="{{ route('propiedades.inquilinos.edit', [$inquilino->propiedad_id, $inquilino->id]) }}" 
+                                              class="btn btn-sm btn-warning" title="Editar">
                                     <i class="fas fa-pencil-alt"></i> Editar
                                 </a>
                                 <form method="POST" 
-                                      action="{{ route('propiedades.inquilinos.destroy', [$inquilino->propiedad_id, $inquilino->id]) }}" 
+                                                  action="{{ route('inquilinos.destroyAll', $inquilino->id) }}" 
                                       class="d-inline" 
                                       onsubmit="return confirm('¿Estás seguro?');">
                                     @csrf

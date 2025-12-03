@@ -120,10 +120,7 @@
                     <p class="mb-2"><strong>Dirección completa:</strong></p>
                     <p class="text-muted">{{ $propiedad->direccion }}</p>
                     <div class="mt-3 p-3 bg-light rounded">
-                        <small class="text-muted">
-                            <i class="fas fa-info-circle me-1"></i>
-                            Esta información de ubicación es visible solo para el administrador.
-                        </small>
+                        {!! $propiedad->mapa_embed_code !!}
                     </div>
                 </div>
             </div>
