@@ -25,9 +25,11 @@ class StoreInquilinoRequest extends FormRequest
             'nombre' => 'required|string|max:255',
             'email' => 'required|email|unique:inquilinos,email',
             'telefono' => 'nullable|string|max:20',
-            'fecha_inicio' => 'required|date|after_or_equal:today',
+            // Permitimos registrar históricos, solo validamos que sea una fecha válida
+            'fecha_inicio' => 'required|date',
             'fecha_fin' => 'nullable|date|after:fecha_inicio',
-            'propiedad_id' => 'nullable|exists:propiedades,id',
+            // La propiedad es obligatoria y debe existir
+            'propiedad_id' => 'required|exists:propiedades,id',
         ];
     }
 

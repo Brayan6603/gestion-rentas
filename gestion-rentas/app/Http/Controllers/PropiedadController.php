@@ -66,6 +66,9 @@ class PropiedadController extends Controller
         // Verificar que la propiedad pertenezca al usuario autenticado
         $this->authorize('view', $propiedad);
 
+        // Asegurar que se recargue desde BD para reflejar cambios recientes
+        $propiedad->refresh();
+
         $propiedad->load(['inquilinos', 'pagos' => function ($query) {
             $query->orderBy('fecha_pago', 'desc')->limit(5);
         }, 'gastos' => function ($query) {

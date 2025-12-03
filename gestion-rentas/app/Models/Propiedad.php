@@ -97,11 +97,29 @@ class Propiedad extends Model
     public function inquilinoActual()
     {
         return $this->inquilinos()
+            ->whereDate('fecha_inicio', '<=', now()->toDateString())
             ->where(function ($query) {
-                $query->where('fecha_fin', '>=', now())
-                    ->orWhereNull('fecha_fin');
+                $query->whereDate('fecha_fin', '>=', now()->toDateString())
+                      ->orWhereNull('fecha_fin');
             })
+            ->orderByDesc('fecha_inicio')
             ->first();
+    }
+
+    /**
+     * Actualizar el estado de la propiedad según si tiene inquilino actual.
+     * Si hay inquilino vigente => 'rentada', si no => 'disponible'.
+     */
+    public function refrescarEstadoPorInquilinos(): void
+    {
+        $tieneInquilinoActual = (bool) $this->inquilinoActual();
+
+        $nuevoEstado = $tieneInquilinoActual ? 'rentada' : 'disponible';
+
+        if ($this->estado !== $nuevoEstado) {
+            $this->estado = $nuevoEstado;
+            $this->save();
+        }
     }
 
     /**

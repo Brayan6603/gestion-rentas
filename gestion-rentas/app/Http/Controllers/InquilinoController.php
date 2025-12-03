@@ -81,6 +81,12 @@ class InquilinoController extends Controller
 
         $inquilino = Inquilino::create($validated);
 
+        // Al asignar un nuevo inquilino, marcar la propiedad como rentada
+        if ($propiedad->estado !== 'rentada') {
+            $propiedad->estado = 'rentada';
+            $propiedad->save();
+        }
+
         return redirect()
                 ->route('inquilinos.index')
                 ->with('success', 'Inquilino creado exitosamente.');
@@ -119,6 +125,12 @@ class InquilinoController extends Controller
         $validated['propiedad_id'] = $propiedad->id;
 
         $inquilino = Inquilino::create($validated);
+
+        // Al crear un inquilino para esta propiedad, cambiar su estado a rentada
+        if ($propiedad->estado !== 'rentada') {
+            $propiedad->estado = 'rentada';
+            $propiedad->save();
+        }
 
         return redirect()
                 ->route('propiedades.inquilinos.show', [$propiedad->id, $inquilino->id])
@@ -192,8 +204,32 @@ class InquilinoController extends Controller
 
         $inquilino->delete();
 
+        // Actualizar estado de la propiedad según si quedan inquilinos vigentes
+        $propiedad->refrescarEstadoPorInquilinos();
+
         return redirect()
-                ->route('propiedades.inquilinos.index', $propiedad->id)
+            ->route('propiedades.inquilinos.index', $propiedad->id)
+            ->with('success', 'Inquilino eliminado exitosamente.');
+    }
+
+    /**
+     * Remove the specified inquilino from storage (global list).
+     */
+    public function destroyAll(Inquilino $inquilino)
+    {
+        $this->authorize('delete', $inquilino);
+
+        $propiedad = $inquilino->propiedad;
+
+        $inquilino->delete();
+
+        // Actualizar estado de la propiedad si ya no tiene inquilino vigente
+        if ($propiedad) {
+            $propiedad->refrescarEstadoPorInquilinos();
+        }
+
+        return redirect()
+                ->route('inquilinos.index')
                 ->with('success', 'Inquilino eliminado exitosamente.');
     }
 }

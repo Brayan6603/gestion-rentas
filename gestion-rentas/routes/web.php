@@ -42,6 +42,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/inquilinos', [InquilinoController::class, 'indexAll'])->name('inquilinos.index');
     Route::get('/inquilinos/crear', [InquilinoController::class, 'createAll'])->name('inquilinos.createAll');
     Route::post('/inquilinos', [InquilinoController::class, 'storeAll'])->name('inquilinos.storeAll');
+    Route::delete('/inquilinos/{inquilino}', [InquilinoController::class, 'destroyAll'])->name('inquilinos.destroyAll');
     
     Route::resource('propiedades', PropiedadController::class)->parameters([
         'propiedades' => 'propiedad'
