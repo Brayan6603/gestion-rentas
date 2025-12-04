@@ -28,8 +28,8 @@ class StoreInquilinoRequest extends FormRequest
             // Permitimos registrar históricos, solo validamos que sea una fecha válida
             'fecha_inicio' => 'required|date',
             'fecha_fin' => 'nullable|date|after:fecha_inicio',
-            // La propiedad es obligatoria y debe existir
-            'propiedad_id' => 'required|exists:propiedades,id',
+            // En creación global se envía propiedad_id; en creación anidada se asigna en el controlador
+            'propiedad_id' => 'nullable|exists:propiedades,id',
         ];
     }
 
