@@ -73,25 +73,44 @@ class ReporteController extends Controller
         $year = $request->get('year', now()->year);
         $month = $request->get('month', now()->month);
 
-        $pagos = Pago::whereHas('propiedad', function ($q) use ($user) {
+        $propiedadId = $request->get('propiedad_id');
+
+        // Propiedades del usuario para el filtro
+        $propiedades = $user->propiedades()->orderBy('nombre')->get();
+
+        $pagosQuery = Pago::whereHas('propiedad', function ($q) use ($user, $propiedadId) {
                 $q->where('user_id', $user->id);
+
+                if ($propiedadId) {
+                    $q->where('id', $propiedadId);
+                }
             })
             ->whereYear('fecha_pago', $year)
-            ->whereMonth('fecha_pago', $month)
-            ->sum('monto');
+            ->whereMonth('fecha_pago', $month);
 
-        $gastos = Gasto::whereHas('propiedad', function ($q) use ($user) {
+        $pagos = $pagosQuery->sum('monto');
+
+        $gastosQuery = Gasto::whereHas('propiedad', function ($q) use ($user, $propiedadId) {
                 $q->where('user_id', $user->id);
+
+                if ($propiedadId) {
+                    $q->where('id', $propiedadId);
+                }
             })
             ->whereYear('fecha_gasto', $year)
-            ->whereMonth('fecha_gasto', $month)
-            ->sum('monto');
+            ->whereMonth('fecha_gasto', $month);
+
+        $gastos = $gastosQuery->sum('monto');
 
         $balance = $pagos - $gastos;
 
         $detallesPagos = Pago::with('propiedad')
-            ->whereHas('propiedad', function ($q) use ($user) {
+            ->whereHas('propiedad', function ($q) use ($user, $propiedadId) {
                 $q->where('user_id', $user->id);
+
+                if ($propiedadId) {
+                    $q->where('id', $propiedadId);
+                }
             })
             ->whereYear('fecha_pago', $year)
             ->whereMonth('fecha_pago', $month)
@@ -99,8 +118,12 @@ class ReporteController extends Controller
             ->get();
 
         $detallesGastos = Gasto::with('propiedad', 'categoria')
-            ->whereHas('propiedad', function ($q) use ($user) {
+            ->whereHas('propiedad', function ($q) use ($user, $propiedadId) {
                 $q->where('user_id', $user->id);
+
+                if ($propiedadId) {
+                    $q->where('id', $propiedadId);
+                }
             })
             ->whereYear('fecha_gasto', $year)
             ->whereMonth('fecha_gasto', $month)
@@ -110,6 +133,8 @@ class ReporteController extends Controller
         return view('reportes.mensual', compact(
             'year',
             'month',
+            'propiedadId',
+            'propiedades',
             'pagos',
             'gastos',
             'balance',
