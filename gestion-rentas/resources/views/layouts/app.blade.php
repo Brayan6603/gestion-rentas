@@ -34,10 +34,74 @@
                 <div class="collapse navbar-collapse mx-md-3" id="navbarNav">
                     <!-- Left Side Navigation -->
                     <ul class="navbar-nav me-auto">
+                        @php
+                            switch (true) {
+                                case request()->routeIs('dashboard'):
+                                    $currentIcon = 'fas fa-gauge';
+                                    $currentLabel = 'Dashboard';
+                                    $currentRoute = route('dashboard');
+                                    break;
+                                case request()->is('propiedades*'):
+                                    $currentIcon = 'fas fa-building';
+                                    $currentLabel = 'Departamentos';
+                                    $currentRoute = route('propiedades.index');
+                                    break;
+                                case request()->is('inquilinos*'):
+                                    $currentIcon = 'fas fa-users';
+                                    $currentLabel = 'Inquilinos';
+                                    $currentRoute = route('inquilinos.index');
+                                    break;
+                                case request()->is('pagos*'):
+                                    $currentIcon = 'fas fa-money-bill-wave';
+                                    $currentLabel = 'Pagos';
+                                    $currentRoute = route('pagos.index');
+                                    break;
+                                case request()->is('depositos*'):
+                                    $currentIcon = 'fas fa-shield-alt';
+                                    $currentLabel = 'Depósitos';
+                                    $currentRoute = route('depositos.index');
+                                    break;
+                                case request()->is('gastos*'):
+                                    $currentIcon = 'fas fa-receipt';
+                                    $currentLabel = 'Gastos';
+                                    $currentRoute = route('gastos.index');
+                                    break;
+                                case request()->routeIs('reportes.balance-general'):
+                                    $currentIcon = 'fas fa-balance-scale';
+                                    $currentLabel = 'Balance General';
+                                    $currentRoute = route('reportes.balance-general');
+                                    break;
+                                case request()->routeIs('reportes.estado-cuenta'):
+                                    $currentIcon = 'fas fa-file-invoice-dollar';
+                                    $currentLabel = 'Estado de Cuenta';
+                                    $currentRoute = route('reportes.estado-cuenta');
+                                    break;
+                                case request()->routeIs('reportes.mensual'):
+                                    $currentIcon = 'fas fa-chart-bar';
+                                    $currentLabel = 'Reporte Mensual';
+                                    $currentRoute = route('reportes.mensual');
+                                    break;
+                                case request()->routeIs('reportes.anual'):
+                                    $currentIcon = 'fas fa-chart-pie';
+                                    $currentLabel = 'Reporte Anual';
+                                    $currentRoute = route('reportes.anual');
+                                    break;
+                                case request()->routeIs('profile.edit'):
+                                    $currentIcon = 'fas fa-user';
+                                    $currentLabel = 'Mi Perfil';
+                                    $currentRoute = route('profile.edit');
+                                    break;
+                                default:
+                                    $currentIcon = 'fas fa-gauge';
+                                    $currentLabel = 'Dashboard';
+                                    $currentRoute = route('dashboard');
+                                    break;
+                            }
+                        @endphp
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}" 
-                               href="{{ route('dashboard') }}">
-                                <i class="fas fa-tachometer-alt me-1"></i>Dashboard
+                            <a class="nav-link active" 
+                               href="{{ $currentRoute }}">
+                                <i class="{{ $currentIcon }} me-1"></i>{{ $currentLabel }}
                             </a>
                         </li>
                     </ul>

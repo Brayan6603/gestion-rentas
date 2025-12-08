@@ -27,7 +27,18 @@
                     <label class="form-label" for="year">Año</label>
                     <input type="number" name="year" id="year" class="form-control" value="{{ $year }}">
                 </div>
-                <div class="col-md-3 d-flex align-items-end">
+                <div class="col-md-4">
+                    <label class="form-label" for="propiedad_id">Propiedad</label>
+                    <select name="propiedad_id" id="propiedad_id" class="form-select">
+                        <option value="">Todas las propiedades</option>
+                        @foreach($propiedades as $propiedad)
+                            <option value="{{ $propiedad->id }}" @selected(isset($propiedadId) && (int)$propiedadId === $propiedad->id)>
+                                {{ $propiedad->nombre }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-2 d-flex align-items-end">
                     <button type="submit" class="btn btn-primary w-100">
                         <i class="fas fa-search me-2"></i>Actualizar
                     </button>

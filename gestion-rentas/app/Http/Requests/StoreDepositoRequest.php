@@ -10,7 +10,14 @@ class StoreDepositoRequest extends FormRequest
     {
         return true;
     }
-
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'monto_devuelto' => $this->filled('monto_devuelto')
+                ? $this->monto_devuelto
+                : 0,
+        ]);
+    }
     public function rules()
     {
         return [

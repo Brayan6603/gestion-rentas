@@ -124,6 +124,37 @@ class InquilinoController extends Controller
         $validated = $request->validated();
         $validated['propiedad_id'] = $propiedad->id;
 
+        // Validar que no exista ya un inquilino activo en el rango de fechas
+        $fechaInicio = $validated['fecha_inicio'];
+        $fechaFin = $validated['fecha_fin'] ?? null;
+
+        $existeActivo = $propiedad->inquilinos()
+            ->where(function ($q) use ($fechaInicio, $fechaFin) {
+                // Casos de solapamiento de rangos de fechas
+                $q->where(function ($sub) use ($fechaInicio) {
+                    // Inquilino sin fecha_fin (vigente indefinido) que empieza antes o el mismo día
+                    $sub->whereNull('fecha_fin')
+                        ->whereDate('fecha_inicio', '<=', $fechaInicio);
+                });
+
+                if ($fechaFin) {
+                    // Cualquier inquilino cuyo rango se cruce con [fechaInicio, fechaFin]
+                    $q->orWhere(function ($sub) use ($fechaInicio, $fechaFin) {
+                        $sub->whereDate('fecha_inicio', '<=', $fechaFin)
+                            ->where(function ($inner) use ($fechaInicio) {
+                                $inner->whereNull('fecha_fin')
+                                      ->orWhereDate('fecha_fin', '>=', $fechaInicio);
+                            });
+                    });
+                }
+            })
+            ->exists();
+
+        if ($existeActivo) {
+            return back()
+                ->withInput()
+                ->with('error', 'Ya existe un inquilino activo para esta propiedad en esas fechas. No se puede crear otro.');
+        }
         $inquilino = Inquilino::create($validated);
 
         // Al crear un inquilino para esta propiedad, cambiar su estado a rentada
@@ -133,8 +164,8 @@ class InquilinoController extends Controller
         }
 
         return redirect()
-                ->route('propiedades.inquilinos.show', [$propiedad->id, $inquilino->id])
-                ->with('success', 'Inquilino creado exitosamente.');
+            ->route('propiedades.inquilinos.show', [$propiedad->id, $inquilino->id])
+            ->with('success', 'Inquilino creado exitosamente.');
     }
 
     /**
