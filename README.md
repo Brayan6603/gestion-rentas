@@ -66,7 +66,7 @@ Sistema web desarrollado en Laravel para automatizar la gestión de propiedades 
 
 \- \[x] Sistema de Depósitos
 
-\- \[ ] Reportes financieros
+\- \[X ] Reportes financieros
 
 
 
