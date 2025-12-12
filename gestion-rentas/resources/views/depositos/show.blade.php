@@ -6,7 +6,7 @@
         <h3 class="mb-0">Depósito #{{ $deposito->id }}</h3>
         <div>
             <a href="{{ route('propiedades.depositos.edit', [$propiedad->id, $deposito->id]) }}" class="btn btn-outline-primary">Editar</a>
-            <a href="{{ route('propiedades.depositos.index', $propiedad->id) }}" class="btn btn-outline-secondary ms-2">Volver</a>
+            <a href="{{ url()->previous() }}" class="btn btn-outline-secondary ms-2">Volver</a>
         </div>
     </div>
 

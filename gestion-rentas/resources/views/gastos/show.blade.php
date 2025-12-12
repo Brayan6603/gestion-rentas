@@ -10,9 +10,9 @@
             <a href="{{ route('propiedades.gastos.edit', [$propiedad, $gasto]) }}" class="btn btn-warning">
                 <i class="fas fa-edit"></i> Editar
             </a>
-            <a href="{{ route('propiedades.gastos.index', $propiedad) }}" class="btn btn-secondary">
-                <i class="fas fa-arrow-left"></i> Volver
-            </a>
+               <a href="{{ url()->previous() }}" class="btn btn-secondary">
+                   <i class="fas fa-arrow-left"></i> Volver
+               </a>
         </div>
     </div>
 

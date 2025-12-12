@@ -71,7 +71,7 @@
                             <button type="submit" class="btn btn-primary">
                                 <i class="bi bi-check-circle"></i> Actualizar Inquilino
                             </button>
-                            <a href="{{ route('propiedades.inquilinos.show', [$propiedad->id, $inquilino->id]) }}" class="btn btn-secondary">
+                            <a href="{{ url()->previous() }}" class="btn btn-secondary">
                                 <i class="bi bi-x-circle"></i> Cancelar
                             </a>
                         </div>

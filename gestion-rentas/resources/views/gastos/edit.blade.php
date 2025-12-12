@@ -11,7 +11,7 @@
     @include('gastos._form')
 
     <div class="mt-4">
-        <a href="{{ route('propiedades.gastos.show', [$propiedad, $gasto]) }}" class="btn btn-secondary">
+        <a href="{{ url()->previous() }}" class="btn btn-secondary">
             <i class="fas fa-arrow-left"></i> Volver
         </a>
     </div>

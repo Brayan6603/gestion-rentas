@@ -6,7 +6,7 @@
         <h3 class="mb-0">Pago #{{ $pago->id }}</h3>
         <div>
             <a href="{{ route('propiedades.pagos.edit', [$propiedad->id, $pago->id]) }}" class="btn btn-outline-primary">Editar</a>
-            <a href="{{ route('propiedades.pagos.index', $propiedad->id) }}" class="btn btn-outline-secondary ms-2">Volver</a>
+            <a href="{{ url()->previous() }}" class="btn btn-outline-secondary ms-2">Volver</a>
         </div>
     </div>
 

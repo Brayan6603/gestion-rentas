@@ -11,7 +11,7 @@
             <a href="{{ route('propiedades.inquilinos.edit', [$propiedad->id, $inquilino->id]) }}" class="btn btn-warning">
                 <i class="bi bi-pencil"></i> Editar
             </a>
-            <a href="{{ route('propiedades.inquilinos.index', $propiedad->id) }}" class="btn btn-secondary">
+            <a href="{{ url()->previous() }}" class="btn btn-secondary">
                 <i class="bi bi-arrow-left"></i> Volver
             </a>
         </div>

@@ -21,7 +21,7 @@
     </div>
 
     <div class="mt-4">
-        <a href="{{ route('propiedades.pagos.show', [$propiedad, $pago]) }}" class="btn btn-secondary">
+        <a href="{{ url()->previous() }}" class="btn btn-secondary">
             <i class="fas fa-arrow-left"></i> Volver
         </a>
     </div>
